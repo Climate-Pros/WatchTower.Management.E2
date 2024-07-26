@@ -1,0 +1,64 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>aspnet-WatchTowerManagementE2-7b2ab71a-0b50-423f-969d-e35a9402b1b5</UserSecretsId>
+        <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+        <PublishProfile>DefaultContainer</PublishProfile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Using Include="WatchTowerManagementE2" />
+        <Using Include="ServiceStack" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Hangfire" Version="1.8.14" />
+        <PackageReference Include="Hangfire.Console" Version="1.4.3" />
+        <PackageReference Include="Hangfire.Console.LogExtension" Version="1.0.2" />
+        <PackageReference Include="Hangfire.Heartbeat" Version="0.6.0" />
+        <PackageReference Include="Hangfire.JobsLogger" Version="0.2.1" />
+        <PackageReference Include="Hangfire.PostgreSql" Version="1.20.9" />
+        <PackageReference Include="Hangfire.RecurringJobAdmin" Version="1.0.5" />
+        <PackageReference Include="IeuanWalker.Hangfire.RecurringJob" Version="1.0.2" />
+        <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.*" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.*" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.*" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.*" />
+        <PackageReference Include="Markdig" Version="0.35.*" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4" />
+        <PackageReference Include="ServiceStack.OrmLite.PostgreSQL" Version="8.3.0" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.7" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+        <PackageReference Include="ServiceStack.AspNetCore.OpenApi" Version="8.3.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="ServiceStack" Version="8.*" />
+        <PackageReference Include="ServiceStack.Blazor" Version="8.*" />
+        <PackageReference Include="ServiceStack.Mvc" Version="8.*" />
+        <PackageReference Include="ServiceStack.OrmLite.Sqlite.Data" Version="8.*" />
+        <PackageReference Include="ServiceStack.Extensions" Version="8.*" />
+        <PackageReference Include="ServiceStack.Server" Version="8.*" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\WatchTowerManagementE2.ServiceInterface\WatchTowerManagementE2.ServiceInterface.csproj" />
+        <ProjectReference Include="..\WatchTowerManagementE2.ServiceModel\WatchTowerManagementE2.ServiceModel.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="_pages\**" CopyToPublishDirectory="PreserveNewest" />
+        <Content Include="_videos\**" CopyToPublishDirectory="PreserveNewest" />
+    </ItemGroup>
+
+    <Target Name="tailwind" BeforeTargets="Publish">
+        <Exec Command="npm run ui:build" WorkingDirectory="./" />
+    </Target>
+
+</Project>

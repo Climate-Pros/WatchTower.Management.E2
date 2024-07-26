@@ -1,0 +1,24 @@
+using ServiceStack;
+using WatchTowerManagementE2.ServiceInterface.Commands.Types;
+using WatchTowerManagementE2.ServiceModel;
+using WatchTowerManagementE2.ServiceModel.Commands.GetControllerList;
+
+namespace WatchTowerManagementE2.ServiceInterface.Commands;
+
+public class GetControllerListCommand : E2Command<GetControllerList, List<Controller>>
+{
+    public int LocationId { get; set; }
+
+    public async Task ExecuteAsync(GetControllerList request)
+    {
+        var result = await ExecuteE2Command<GetControllerListResult>
+        (
+            GetEndpointByLocationId(request.LocationId), 
+            "E2.GetControllerList", 
+            json => json.FromJson<GetControllerListResult>(),
+            [1] 
+        ); 
+        
+        Result = result.Controllers;
+    }
+}
