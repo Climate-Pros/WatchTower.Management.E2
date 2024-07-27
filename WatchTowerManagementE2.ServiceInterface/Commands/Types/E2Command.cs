@@ -15,10 +15,31 @@ public class E2Command<TRequest, TResult> : IAsyncCommand<TRequest, TResult>  wh
 
     protected Scheme scheme;
     protected string host;
-        
-    protected List<ApplicationType> ApplicationTypes => ((GetApplicationTypesResponse)HostContext.AppHost.ExecuteService(new GetApplicationTypes())).Result;
-    protected List<ApplicationGroup> ApplicationGroups => ((GetApplicationGroupsResponse)HostContext.AppHost.ExecuteService(new GetApplicationGroups())).Result;
 
+    private List<ApplicationType>? _applicationTypes = default;
+    private List<ApplicationGroup>? _applicationGroups = default;
+    
+    protected List<ApplicationType> ApplicationTypes
+    {
+        get
+        {
+            if (_applicationTypes is null)
+                _applicationTypes = ((GetApplicationTypesResponse)HostContext.AppHost.ExecuteService(new GetApplicationTypes())).Result;
+
+            return _applicationTypes;
+        }
+    }
+
+    protected List<ApplicationGroup> ApplicationGroups
+    {
+        get
+        {
+            if (_applicationGroups is null)
+                _applicationGroups =  ((GetApplicationGroupsResponse)HostContext.AppHost.ExecuteService(new GetApplicationGroups())).Result;
+
+            return _applicationGroups;
+        }
+    }
     protected string CreatePayload(int id, string method, List<dynamic>? parameters = default)
     {
         var payload = new Payload(id, method, parameters ?? new List<object>()).ToJson();

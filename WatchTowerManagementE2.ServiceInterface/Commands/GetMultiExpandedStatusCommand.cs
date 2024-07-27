@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using ServiceStack;
 using ServiceStack.Html;
@@ -23,10 +24,7 @@ public class GetMultiExpandedStatusCommand : E2Command<GetMultiExpandedStatus, L
     public async Task ExecuteAsync(GetMultiExpandedStatus request)
     {
         var sw = Stopwatch.StartNew();
-        //var cells = ((GetCellListResponse)await Any(new GetCellList() { LocationId = request.LocationId, ControllerName = request.ControllerName })).Result;
         var cells = await CommandExecutor.ExecuteWithResultAsync(new GetCellListCommand(), new GetCellList { LocationId = request.LocationId, ControllerName = request.ControllerName });
-        
-        var points = new List<string>();
 
         cells.Each(cell =>
         {
@@ -43,11 +41,11 @@ public class GetMultiExpandedStatusCommand : E2Command<GetMultiExpandedStatus, L
             variables.Each(variable => { request.Points.Add($"{request.ControllerName}:{cell.CellName}:{variable}"); });
         });
 
-        var batchResults = new List<MultiExpandStatus>();
-        var pointBatches = request.Points.BatchesOf(10);
+        var batchResults = new ConcurrentBag<MultiExpandStatus>();
+        var pointBatches = request.Points.BatchesOf(20);
 
-        //await Parallel.ForEachAsync( pointBatches.AsParallel(), new ParallelOptions(){MaxDegreeOfParallelism = 2}, async (batch, idx) =>
-        await pointBatches.EachAsync( async (batch, i) => 
+        await Parallel.ForEachAsync( pointBatches.AsParallel(), new ParallelOptions(){  MaxDegreeOfParallelism = 2 }, async (batch, idx) =>
+        //await pointBatches.EachAsync( async (batch, i) => 
         {
             request.Points = batch.ToList();
 
@@ -60,25 +58,18 @@ public class GetMultiExpandedStatusCommand : E2Command<GetMultiExpandedStatus, L
                 [batch.ToObjects()]
             );
             
-            batchResults.AddRange(result.Result.Results);
+            result.Result.Results.Each(batchResults.Add);
+            result = null;
         });
 
         sw.Stop();
 
-        Result = batchResults.ToList(); /*new GetMultiExpandedStatusResponse
-        {
-            Stopwatch = sw.Elapsed.ToString(),
-            Result = [batchResults.Where(_ => _.Value is not null).ToList()]
-        };*/
+        Result = batchResults.OrderBy(_ => _.Prop).ToList();
 
-        /*var result = await ExecuteE2Command<GetMultiExpandedStatusResult>
-        (
-            GetEndpointByLocationId(request.LocationId),
-            "E2.GetMultiExpandedStatus",
-            json => json.FromJson<GetMultiExpandedStatusResult>(),
-            [request.Points]
-        );
-
-        Result = result.Result.Results;*/
+        cells = null;
+        sw = null;
+        batchResults = null;
+        
+        GC.Collect();
     }
 }
