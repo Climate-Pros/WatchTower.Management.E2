@@ -20,6 +20,6 @@ public class Payload
         
         Id = id;
         Method = method;
-        Params = new List<dynamic>( @params );
+        Params =  @params;
     }
 }

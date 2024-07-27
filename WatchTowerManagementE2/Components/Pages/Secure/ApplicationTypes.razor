@@ -1,0 +1,9 @@
+﻿@page "/secure/application-types"
+@attribute [Authorize(Roles = "Employee")]
+@rendermode RenderMode.InteractiveServer
+
+<PageTitle>Application Types</PageTitle>
+
+<Heading1>Application Types</Heading1>
+
+<AutoQueryGrid Model="GetApplicationTypes" Apis="Apis.AutoQuery<QueryApplicationTypes>()" />

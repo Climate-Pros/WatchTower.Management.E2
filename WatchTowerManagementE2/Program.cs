@@ -133,7 +133,7 @@ app.UseHangfireServer(() =>
 });
 app.UseHangfireDashboard("/admin-ui/jobs", new DashboardOptions()
 {
-    DarkModeEnabled      = true,
+    DarkModeEnabled      = false,
     DashboardTitle       = "Jobs",
     StatsPollingInterval = 1000
 }, JobStorage.Current);

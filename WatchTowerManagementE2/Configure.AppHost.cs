@@ -1,14 +1,16 @@
+using ServiceStack.Configuration;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 using ServiceStack.Text;
 using WatchTowerManagementE2.ServiceInterface;
 using WatchTowerManagementE2.ServiceInterface.Commands.Types;
+using Config = ServiceStack.Text.Config;
 
 [assembly: HostingStartup(typeof(WatchTowerManagementE2.AppHost))]
 
 namespace WatchTowerManagementE2;
 
-public class AppHost() : AppHostBase("WatchTowerManagementE2"), IHostingStartup
+public class AppHost() : AppHostBase("E2 Manager"), IHostingStartup
 {
     public void Configure(IWebHostBuilder builder) => builder
         .ConfigureServices((context, services) =>
@@ -19,6 +21,8 @@ public class AppHost() : AppHostBase("WatchTowerManagementE2"), IHostingStartup
     // Configure your AppHost with the necessary configuration and dependencies your App needs
     public override void Configure()
     {
+        Register(AppSettings);        
+        
         using var db = Resolve<IDbConnectionFactory>().OpenDbConnection("ReadOnlyPrimary");
 
         using (JsConfig.With(new Config { IncludeTypeInfo = false, ExcludeDefaultValues = false, DateHandler = DateHandler.RFC1123 }))

@@ -3,23 +3,25 @@ using ServiceStack;
 using ServiceStack.Html;
 using WatchTowerManagementE2.ServiceModel;
 using WatchTowerManagementE2.ServiceModel.Commands.Enums;
+using WatchTowerManagementE2.ServiceModel.Types;
 
 namespace WatchTowerManagementE2.ServiceInterface.Commands.Types;
 
 public class E2Command<TRequest, TResult> : IAsyncCommand<TRequest, TResult>  where TRequest : class, new()
 {
+    protected ICommandExecutor CommandExecutor => HostContext.Resolve<ICommandExecutor>();
     public TResult Result { get; set; }
     public Uri Endpoint { get; protected set; }
 
     protected Scheme scheme;
     protected string host;
         
-    protected List<KeyValuePair<string, string>> ApplicationTypes => ((GetApplicationTypesResponse)HostContext.AppHost.ExecuteService(new GetApplicationTypes())).Result;
-    protected Dictionary<string, List<string>> ApplicationGroups => ((GetApplicationGroupsResponse)HostContext.AppHost.ExecuteService(new GetApplicationGroups())).Result;
+    protected List<ApplicationType> ApplicationTypes => ((GetApplicationTypesResponse)HostContext.AppHost.ExecuteService(new GetApplicationTypes())).Result;
+    protected List<ApplicationGroup> ApplicationGroups => ((GetApplicationGroupsResponse)HostContext.AppHost.ExecuteService(new GetApplicationGroups())).Result;
 
     protected string CreatePayload(int id, string method, List<dynamic>? parameters = default)
     {
-        var payload = new Payload(id, method, [ parameters ?? new List<object>()]).ToJson();
+        var payload = new Payload(id, method, parameters ?? new List<object>()).ToJson();
         return payload;
     }
 
@@ -33,7 +35,7 @@ public class E2Command<TRequest, TResult> : IAsyncCommand<TRequest, TResult>  wh
         var results = await endpoint.ToString().PostStringToUrlAsync
         (
             contentType: "text/plain",
-            requestBody: CreatePayload(id, method, parameters.ConvertTo<List<dynamic>>())
+            requestBody: CreatePayload(id, method, parameters.ToList())
         );
             
         return func( results );

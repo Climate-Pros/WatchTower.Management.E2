@@ -1,4 +1,5 @@
 using ServiceStack.Data;
+using WatchTowerManagementE2.ServiceModel;
 
 [assembly: HostingStartup(typeof(WatchTowerManagementE2.ConfigureAutoQuery))]
 
@@ -21,6 +22,11 @@ public class ConfigureAutoQuery : IHostingStartup
                 MaxLimit = 1000,
                 //IncludeTotal = true,
             });
+            
+            services.AddPlugin(
+                new AutoQueryDataFeature()
+                    .AddDataSource(context => context.ServiceSource<QueryApplicationTypes>(new QueryApplicationTypes(context)))
+            );
         })
         .ConfigureAppHost(appHost => {
             appHost.Resolve<ICrudEvents>().InitSchema();

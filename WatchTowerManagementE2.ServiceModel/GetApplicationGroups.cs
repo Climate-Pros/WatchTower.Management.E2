@@ -1,4 +1,5 @@
 using ServiceStack;
+using WatchTowerManagementE2.ServiceModel.Types;
 
 namespace WatchTowerManagementE2.ServiceModel;
 
@@ -7,8 +8,8 @@ public class GetApplicationGroups : IReturn<GetApplicationGroupsResponse>
 {
 }
 
-public class GetApplicationGroupsResponse : IHasResult<Dictionary<string, List<string>>>, IHasResponseStatus
+public class GetApplicationGroupsResponse : IHasResult<List<ApplicationGroup>>, IHasResponseStatus
 {
-    public Dictionary<string, List<string>> Result { get; set; } = new();
+    public List<ApplicationGroup> Result { get; set; } = new();
     public ResponseStatus ResponseStatus { get; set; }
 }

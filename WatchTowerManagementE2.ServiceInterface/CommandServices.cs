@@ -1,15 +1,19 @@
 using System.Diagnostics;
 using ServiceStack;
 using ServiceStack.Script;
+using ServiceStack.Text;
 using WatchTowerManagementE2.ServiceInterface.Commands;
+using WatchTowerManagementE2.ServiceInterface.Commands.Types;
 using WatchTowerManagementE2.ServiceModel;
+using WatchTowerManagementE2.ServiceModel.Commands.Enums;
 using WatchTowerManagementE2.ServiceModel.Commands.GetMultiExpandedStatus;
+using WatchTowerManagementE2.ServiceModel.Types;
 
 namespace WatchTowerManagementE2.ServiceInterface;
 
 public class CommandServices() : Service
 {
-    public ICommandExecutor CommandExecutor { get; set; }
+    public ICommandExecutor CommandExecutor => HostContext.Resolve<ICommandExecutor>();
 
     /*public async Task<object> Any(GetControllerList request)
     {
@@ -34,8 +38,8 @@ public class CommandServices() : Service
     public async Task<object> Any(GetMultiExpandedStatus request)
     {
         var sw = Stopwatch.StartNew();
-        var applicationTypes = ((GetApplicationTypesResponse) await ResolveService<ReferenceDataServices>().Any(new GetApplicationTypes())).Result;
-        var applicationGroups = ((GetApplicationGroupsResponse) await ResolveService<ReferenceDataServices>().Any(new GetApplicationGroups())).Result;
+        var applicationTypes = Gateway.Send(new GetApplicationTypes()).Result;
+        var applicationGroups = Gateway.Send(new GetApplicationGroups()).Result;
         //var cells = ((GetCellListResponse)await Any(new GetCellList() { LocationId = request.LocationId, ControllerName = request.ControllerName })).Result;
         var cells = await CommandExecutor.ExecuteWithResultAsync(new GetCellListCommand { LocationId = request.LocationId }, new GetCellList { LocationId = request.LocationId, ControllerName = request.ControllerName });
         
@@ -43,17 +47,31 @@ public class CommandServices() : Service
         
         cells.Each(cell =>
         {
-            var applicationGroupName = applicationTypes.SingleOrDefault(_ => _.Value.ToString() == cell.CellType.ToString()).Key;
-            var applicationGroup = applicationGroups.SingleOrDefault(_ => _.Key == applicationGroupName);
-           
-            if (applicationGroup.Key == null) return;
-            
-            var variables = applicationGroup.Value;
-            
-            variables.Each(variable =>
+            var applicationGroupName = applicationTypes.SingleOrDefault(_ => _.Type.ToString() == cell.CellType.ToString())?.Name;
+
+            if (applicationGroupName is null)
             {
-                points.Add($"{request.ControllerName}:{cell.CellName}:{variable}");
-            });                
+                $"Cannot find an application group for cell type: {cell.CellType}".Print();
+                return;
+            }
+
+            var applicationGroup = applicationGroups.SingleOrDefault(_ => _.Name == applicationGroupName);
+           
+            if (applicationGroup?.Name is null)
+            {
+                $"Cannot find an application group name for {applicationGroupName}".Print();
+                return;
+            }
+            
+            var variables = applicationGroup?.Variables;
+
+            if (variables is not null)
+            {
+                variables.Each(variable =>
+                {
+                    points.Add($"{request.ControllerName}:{cell.CellName}:{variable}");
+                });
+            }
         });
 
         var batchResults = new List<MultiExpandStatus>();
