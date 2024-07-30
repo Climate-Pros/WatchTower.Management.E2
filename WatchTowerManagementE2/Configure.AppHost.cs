@@ -15,10 +15,12 @@ public class AppHost() : AppHostBase("E2 Manager"), IHostingStartup
     public void Configure(IWebHostBuilder builder) => builder
         .ConfigureServices((context, services) =>
         {
-            // Configure ASP.NET Core IOC Dependencies
+            services.AddHttpClient<HttpClient>(client =>
+            {
+                client.Timeout = TimeSpan.FromMinutes(30);
+            });
         });
 
-    // Configure your AppHost with the necessary configuration and dependencies your App needs
     public override void Configure()
     {
         Register(AppSettings);        

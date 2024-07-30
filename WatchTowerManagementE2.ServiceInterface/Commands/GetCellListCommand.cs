@@ -24,17 +24,3 @@ public class GetCellListCommand : E2Command<GetCellList, List<Cell>>
         Result = result.Result.Cells;
     }
 }
-
-
-
-public class MyCommand : IAsyncCommand<MyCommandRequest>
-{
-    public async Task ExecuteAsync(MyCommandRequest request)
-    {
-        await Task.Delay(5000);
-    }
-}
-
-public class MyCommandRequest
-{
-}

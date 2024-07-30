@@ -11,7 +11,7 @@ public class GetControllerListCommand : E2Command<GetControllerList, List<Contro
     [Input(Type=Input.Types.Text, Value = "10753")]
     public int LocationId { get; set; }
 
-    public async Task ExecuteAsync(GetControllerList request)
+    public override async Task ExecuteAsync(GetControllerList request)
     {
         var result = await ExecuteE2Command<GetControllerListResult>
         (
