@@ -82,10 +82,15 @@ public class E2Command<TRequest, TResult> : IAsyncCommand<TRequest, TResult>  wh
         var globalAppData = (GlobalAppData)HostContext.AppHost.ScriptContext.Args[nameof(GlobalAppData)];
         var location = globalAppData.AllLocations.FirstOrDefault(_ => _.Id == locationId);
         
-        scheme = Scheme.HTTP;
-        host = location.IP;
+        if (location is null)
+            throw new InvalidOperationException($"Unable to find a location with an id: {locationId}");
+        else
+        {
+            scheme = Scheme.HTTP;
+            host = location.IP;
 
-        return new Uri($"{scheme}://{host}:14106/JSON-RPC");
+            return new Uri($"{scheme}://{host}:14106/JSON-RPC");            
+        }
     }
     
     protected async Task<T> ProfileCodeBlock<T>(string startText, Func<long, string> endText, Func<Task<T>> func)

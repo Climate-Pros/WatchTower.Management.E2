@@ -1,6 +1,7 @@
 using ServiceStack.Configuration;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
+using ServiceStack.Script;
 using ServiceStack.Text;
 using WatchTowerManagementE2.Migrations;
 using WatchTowerManagementE2.ServiceInterface;
@@ -51,6 +52,8 @@ public class AppHost() : AppHostBase("E2 Manager"), IHostingStartup
                            ORDER BY wsl.id
                         ")
             };
+            
+            ScriptContext.Args[nameof(GlobalAppData)].PrintDumpTable();
         }
 
         SetConfig(new HostConfig
