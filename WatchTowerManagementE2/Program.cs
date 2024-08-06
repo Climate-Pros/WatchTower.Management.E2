@@ -11,11 +11,14 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using ServiceStack.Blazor;
+using ServiceStack.Logging;
 using WatchTowerManagementE2.Components;
 using WatchTowerManagementE2.Components.Account;
 using WatchTowerManagementE2.Jobs;
 using WatchTowerManagementE2.ServiceInterface;
 using WatchTowerManagementE2.ServiceInterface.Data;
+
+LogManager.LogFactory = new ConsoleLogFactory(true);
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -59,7 +62,7 @@ services.AddScoped(c => new HttpClient { BaseAddress = new Uri(baseUrl) });
 services.AddBlazorServerIdentityApiClient(baseUrl);
 services.AddLocalStorage();
 
-JobStorage.Current = new PostgreSqlStorage(config.GetConnectionString("DefaultConnection"));
+JobStorage.Current = new PostgreSqlStorage(config.GetConnectionString("E2ManagerConnectionString"));
 
 services.AddHangfire((provider, configuration) =>
         {
@@ -115,6 +118,8 @@ app.MapRazorComponents<App>()
 
 // Add additional endpoints required by the Identity /Account Razor components.
 app.MapAdditionalIdentityEndpoints();
+
+
 
 app.UseServiceStack(new AppHost(), 
 options => 

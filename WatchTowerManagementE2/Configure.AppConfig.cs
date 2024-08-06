@@ -71,9 +71,8 @@ public class ConfigureAppConfig : IHostingStartup
                     .AddEnvironmentVariables();
 
                 Configuration = builder.Build();
-                
                 AppSettings.Reload(Configuration);
-                
+
                 Log.Info( "App Configuration configured" );
             }
             

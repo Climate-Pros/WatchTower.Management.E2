@@ -2,6 +2,7 @@ using ServiceStack.Configuration;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 using ServiceStack.Text;
+using WatchTowerManagementE2.Migrations;
 using WatchTowerManagementE2.ServiceInterface;
 using WatchTowerManagementE2.ServiceInterface.Commands.Types;
 using Config = ServiceStack.Text.Config;
@@ -25,7 +26,7 @@ public class AppHost() : AppHostBase("E2 Manager"), IHostingStartup
     {
         Register(AppSettings);        
         
-        using var db = Resolve<IDbConnectionFactory>().OpenDbConnection("ReadOnlyPrimary");
+        using var db = Resolve<IDbConnectionFactory>().OpenDbConnection("PrimaryConnectionString");
 
         using (JsConfig.With(new Config { IncludeTypeInfo = false, ExcludeDefaultValues = false, DateHandler = DateHandler.RFC1123 }))
         {
@@ -55,5 +56,8 @@ public class AppHost() : AppHostBase("E2 Manager"), IHostingStartup
         SetConfig(new HostConfig
         {
         });
+        
+        var migrator = new Migrator(this.Resolve<IDbConnectionFactory>(), typeof(Migration1000).Assembly);
+        migrator.Run();
     }
 }
