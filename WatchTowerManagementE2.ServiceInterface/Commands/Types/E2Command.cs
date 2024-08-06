@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Net.Http.Json;
+using System.Net.Sockets;
 using Microsoft.Extensions.Logging;
 using ServiceStack;
 using ServiceStack.Html;
@@ -57,21 +58,27 @@ public class E2Command<TRequest, TResult> : IAsyncCommand<TRequest, TResult>  wh
 
     protected async Task<TResponse> ExecuteE2Command<TResponse>(Uri endpoint, string method, int id, Func<string, TResponse> func, params object[] parameters )
     {
-        var results = await HostContext.Resolve<HttpClient>().SendStringToUrlAsync(
-            url: endpoint.ToString(),
-            method: "POST",
-            requestBody: CreatePayload(id, method, parameters.ToList()),
-            contentType: "text/plain"
-        );
-        /*var results = await endpoint.ToString().PostStringToUrlAsync
-        (
-            contentType: "text/plain",
-            requestBody: CreatePayload(id, method, parameters.ToList())
-        );*/
+        try
+        {
+             
             
-        return func( results );
-    }
+            var results = await HostContext.Resolve<HttpClient>().SendStringToUrlAsync(
+                url: endpoint.ToString(),
+                method: "POST",
+                requestBody: CreatePayload(id, method, parameters.ToList()),
+                contentType: "text/plain"
+            );
+            
+            return func( results );
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+            throw;
+        }
 
+    }
+    
     public virtual Task ExecuteAsync(TRequest request)
     {
         return Task.CompletedTask;
@@ -92,23 +99,77 @@ public class E2Command<TRequest, TResult> : IAsyncCommand<TRequest, TResult>  wh
             return new Uri($"{scheme}://{host}:14106/JSON-RPC");            
         }
     }
-    
-    protected async Task<T> ProfileCodeBlock<T>(string startText, Func<long, string> endText, Func<Task<T>> func)
+}
+
+public static class E2CommandExtensions
+{/*
+    public static bool IsOnline(this Uri endpoint,  TimeSpan? timeout = default)
     {
+        var request = new Tuple<string, Func<Task<bool>>>("Starting controller availability test", async  () =>
+        {
+
+            timeout ??= TimeSpan.FromSeconds(2);
+
+            try
+            {
+                var host = endpoint.Host;
+                var port = endpoint.Port;
+
+                using (var client = new TcpClient())
+                {
+                    var result = client.BeginConnect(host, port, null, null);
+                    var success = result.AsyncWaitHandle.WaitOne((TimeSpan)timeout);
+                    client.EndConnect(result);
+                    return success;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        });
+
+        return request.Profile();
+    }   */
+    
+    /*public static async Task Profile(this (string, Func<long, string>) parameters, Func<Task> profile)
+    {
+        var startText = parameters.Item1;
+        var endText = parameters.Item2;
+        
         startText.Print();
         var sw = new Stopwatch();
         sw.Start();
-        var result = await func();
+        var result = await profile();
+        sw.Stop();
+        endText(sw.ElapsedMilliseconds).Print();
+
+        return result;
+    }*/
+    
+    public static async Task<T> Profile<T>(this (string, Func<long, string>) parameters, Func<Task<T>> profile)
+    {
+        var startText = parameters.Item1;
+        var endText = parameters.Item2;
+        
+        startText.Print();
+        var sw = new Stopwatch();
+        sw.Start();
+        var result = await profile();
         sw.Stop();
         endText(sw.ElapsedMilliseconds).Print();
 
         return result;
     }
     
-    protected async Task<T> ProfileCodeBlock<T>(string startText, Func<Task<T>> func)
+    public static T Profile<T>(this (string, Func<T>) parameters)
     {
+        var startText = parameters.Item1;
+        var profile = parameters.Item2;
+
         startText.Print();
 
-        return await func();
+        return  profile();
     }
+    
 }

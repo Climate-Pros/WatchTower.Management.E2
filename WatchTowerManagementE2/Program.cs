@@ -62,17 +62,34 @@ services.AddScoped(c => new HttpClient { BaseAddress = new Uri(baseUrl) });
 services.AddBlazorServerIdentityApiClient(baseUrl);
 services.AddLocalStorage();
 
-JobStorage.Current = new PostgreSqlStorage(config.GetConnectionString("E2ManagerConnectionString"));
+JobStorage.Current = new PostgreSqlStorage(config.GetConnectionString("E2ManagerConnectionString"), 
+    connection =>
+    {
+        connection.Open();
+        connection.ChangeDatabase("watchtower_management_e2");
+    }, new PostgreSqlStorageOptions
+    {
+        SchemaName = "jobs",
+        PrepareSchemaIfNecessary = true
+    }
+);
 
 services.AddHangfire((provider, configuration) =>
         {
             var factory = provider.GetService<IServiceScopeFactory>();
 
             configuration
+                .UseJobsLogger(new JobsLoggerOptions()
+                {
+                    LogLevel = LogLevel.Debug
+                })
+                .UseConsole(new ConsoleOptions(){ 
+                    BackgroundColor = "Blue", 
+                    TextColor = "White",
+                    
+                })
                 .UseRecurringJobAdmin(false, typeof(RecurringJobs).Assembly)
                 .UseActivator(new AspNetCoreJobActivator(factory))
-                .UseJobsLogger()
-                .UseConsole()
                 .UseColouredConsoleLogProvider()
                 .UseDashboardMetrics()
                 .UseHeartbeatPage(checkInterval: TimeSpan.FromSeconds(1))
