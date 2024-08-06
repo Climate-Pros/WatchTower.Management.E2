@@ -12,16 +12,15 @@ public class ConfigureDb : IHostingStartup
 {
     public void Configure(IWebHostBuilder builder) => builder
         .ConfigureServices((context, services) => {
-            var connectionString = context.Configuration.GetConnectionString("DefaultConnection");
+
+            var defaultConnection      = context.Configuration.GetConnectionString("DefaultConnection");
+            var readonlyPrimaryConnection = context.Configuration.GetConnectionString("ReadOnlyPrimary");
 
             //IDbConnectionFactory dbConnectionFactory = new OrmLiteConnectionFactory(connectionString, PostgreSqlDialect.Provider);
             
             var dialect   = PostgreSqlDialectProvider.Instance;
-            var dbFactory = new OrmLiteConnectionFactory( connectionString, dialect );
-
-            var defaultConnection      = context.Configuration["ConnectionStrings:DefaultConnection"];
-            var readonlyPrimaryConnection = context.Configuration["ConnectionStrings:ReadOnlyPrimary"];
-
+            var dbFactory = new OrmLiteConnectionFactory( defaultConnection, dialect );
+            
             dbFactory.RegisterConnection( "Default",      defaultConnection,      PostgreSqlDialectProvider.Instance );
             dbFactory.RegisterConnection( "ReadOnlyPrimary", readonlyPrimaryConnection, PostgreSqlDialectProvider.Instance );
             
@@ -30,7 +29,7 @@ public class ConfigureDb : IHostingStartup
             // $ dotnet ef migrations add CreateIdentitySchema
             // $ dotnet ef database update
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(connectionString, b => b.MigrationsAssembly(nameof(WatchTowerManagementE2))));
+                options.UseNpgsql(defaultConnection, b => b.MigrationsAssembly(nameof(WatchTowerManagementE2))));
             
             // Enable built-in Database Admin UI at /admin-ui/database
             services.AddPlugin(new AdminDatabaseFeature());

@@ -1,0 +1,55 @@
+﻿services:
+  
+  db:
+    container_name: db
+    hostname: db
+    image: postgres
+    restart: unless-stopped
+    shm_size: 512mb
+    networks:
+      - watchtower
+    ports:
+      - 25432:5432
+    volumes:
+      - ${PWD}/containers/postgres/data:/var/lib/postgresql/data
+    environment:
+      PGDATA: /var/lib/postgresql/data
+      POSTGRES_USER: watchtower
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: watchtower_management_e2
+
+  db-admin:
+    container_name: db-admin
+    hostname: db-admin
+    depends_on:
+      - db
+    image: adminer
+    restart: unless-stopped
+    networks:
+      - watchtower
+    ports:
+      - 25002:8080
+  
+#  ui:
+#    container_name: ui
+#    depends_on:
+#      - db
+#    networks:
+#      - watchtower
+#    ports:
+#      - 25000:25000
+#    build:
+#      context: .
+#      dockerfile: WatchTowerManagementE2/Dockerfile
+#    env_file:
+#      - ./.env
+#    environment:
+#      ASPNETCORE_ENVIRONMENT: Development
+#      ASPNETCORE_URLS: http://localhost:25000
+#      CONNECTIONSTRINGS__E2MANAGERCONNECTIONSTRING: "Host=localhost;Port=25432;Database=watchtower_management_e2;Username=watchtower;Password=password;Include Error Detail=true"
+#      AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+#      AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+#      AWS_REGION: $AWS_REGION
+
+networks:
+  watchtower:
