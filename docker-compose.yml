@@ -40,7 +40,7 @@
 #      - 25000:25000
 #    build:
 #      context: .
-#      dockerfile: WatchTowerManagementE2/Dockerfile
+#      dockerfile: WatchTower.Management.Devices.E2/Dockerfile
 #    env_file:
 #      - ./.env
 #    environment:

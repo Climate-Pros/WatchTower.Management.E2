@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <DebugType>portable</DebugType>
+        <OutputType>Library</OutputType>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\WatchTower.Management.Devices.E2.ServiceInterface\WatchTower.Management.Devices.E2.ServiceInterface.csproj" />
+        <ProjectReference Include="..\WatchTower.Management.Devices.E2.ServiceModel\WatchTower.Management.Devices.E2.ServiceModel.csproj" />
+        <ProjectReference Include="..\WatchTower.Management.Devices.E2\WatchTower.Management.Devices.E2.csproj" />
+
+        <PackageReference Include="NUnit" Version="3.*" />
+        <PackageReference Include="NUnit3TestAdapter" Version="4.*" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.*" />
+        <PackageReference Include="ServiceStack" Version="8.*" />
+        <PackageReference Include="ServiceStack.Kestrel" Version="8.*" />
+        <ProjectReference Include="..\WatchTower.Management.Devices.Manager\WatchTower.Management.Devices.Manager.csproj" />
+    </ItemGroup>
+
+</Project>
