@@ -5,7 +5,7 @@ using WatchTower.Management.Devices.Shared;
 
 namespace WatchTower.Management.Devices.E2.ServiceModel;
 
-[Tag("E2")]
+[Tag("E2 - Commands")]
 public class GetCellList : IReturn<GetCellListResponse>
 {
     public int LocationId { get; set; }

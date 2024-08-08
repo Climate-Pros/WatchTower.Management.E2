@@ -3,7 +3,7 @@ using WatchTower.Management.Devices.E2.ServiceModel.Types;
 
 namespace WatchTower.Management.Devices.E2.ServiceModel;
 
-[Tag("Reference Data")]
+[Tag("E2 - Reference Data")]
 public class GetApplicationGroups : IReturn<GetApplicationGroupsResponse>
 {
 }
