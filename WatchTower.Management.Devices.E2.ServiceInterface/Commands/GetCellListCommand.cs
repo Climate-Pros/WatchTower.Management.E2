@@ -15,7 +15,4 @@ public class GetCellListCommand :  GetCellList
         [ request.ControllerName ],
         json => json.FromJson<GetCellListResult>()
     );
-
-    public int LocationId { get; set; }
-    public string ControllerName { get; set; }
 }
