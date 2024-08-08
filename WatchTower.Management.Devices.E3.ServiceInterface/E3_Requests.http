@@ -1,0 +1,127 @@
+
+### Get App Description
+#@no-log
+POST http://70.93.249.182/cgi-bin/mgw.cgi
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+
+#m={"jsonrpc":"2.0","method":"GetAppDescription","params":{"iid":"3313576133","sid":"44c6ec9d-5d08-453d-88fb-4b246091e8d5"},"id":"42"}
+m={"jsonrpc":"2.0","method":"GetAppDescription","params":{"iid":"2683899464","sid":"44c6ec9d-5d08-453d-88fb-4b246091e8d5"},"id":"42"}
+
+# Response: http://www.jsonblob.com/1271216274515288064
+
+### Get Tag File
+#@no-log
+POST http://70.93.249.182/cgi-bin/mgw.cgi
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+
+m={"jsonrpc":"2.0","method":"GetTagFile","params":{"sid":"b2049e12-34c0-46c6-b520-79fc11f37083"},"id":"95"}
+
+### Unregister Point
+#@no-log
+POST http://70.93.249.182/cgi-bin/mgw.cgi
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+
+m={"jsonrpc":"2.0","method":"UnregisterPoint","params":{"points":[{"ptr":"55560472:AppName"},{"ptr":"143375223:AppName"},{"ptr":"193463531:AppName"}],"sid":"b2049e12-34c0-46c6-b520-79fc11f37083"},"id":"94"}
+
+### Get Points Values
+#@no-log
+POST http://70.93.249.182/cgi-bin/mgw.cgi
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+
+m={"jsonrpc":"2.0","method":"GetPointValues","params":{"points":[{"ptr":"1391366313:DewpointOut"},{"ptr":"1391366313:IntervalTime"},{"ptr":"1391366313:Output"},{"ptr":"1391366313:PercentOnTime"},{"ptr":"1391366313:RelHumidity"},{"ptr":"1391366313:UseDewptSnsr"},{"ptr":"3313576133:CurPresSetpt"},{"ptr":"3313576133:PercentUsed"},{"ptr":"3313576133:RackFail"},{"ptr":"3313576133:StageOut1"},{"ptr":"3313576133:StageOut10"},{"ptr":"3313576133:StageOut11"},{"ptr":"3313576133:StageOut12"},{"ptr":"3313576133:StageOut13"},{"ptr":"3313576133:StageOut14"},{"ptr":"3313576133:StageOut15"},{"ptr":"3313576133:StageOut16"},{"ptr":"3313576133:StageOut2"},{"ptr":"3313576133:StageOut3"},{"ptr":"3313576133:StageOut4"},{"ptr":"3313576133:StageOut5"},{"ptr":"3313576133:StageOut6"},{"ptr":"3313576133:StageOut7"},{"ptr":"3313576133:StageOut8"},{"ptr":"3313576133:StageOut9"},{"ptr":"3313576133:StagesActive"},{"ptr":"3313576133:SuctionPres"},{"ptr":"3313576133:TotalStages"},{"ptr":"3313576133:ControlType"},{"ptr":"3313576133:Number-Stages"},{"ptr":"3313576133:DischargePres"},{"ptr":"3313576133:CompProof1"},{"ptr":"3313576133:ProofEnable1"},{"ptr":"3313576133:Number-Stages"},{"ptr":"3313576133:CompProof2"},{"ptr":"3313576133:ProofEnable2"},{"ptr":"3313576133:StageType2"},{"ptr":"3313576133:Number-Stages"},{"ptr":"3313576133:CompProof3"},{"ptr":"3313576133:ProofEnable3"},{"ptr":"3313576133:StageType3"},{"ptr":"3313576133:Number-Stages"},{"ptr":"3313576133:StageOut1~CyclesYesterday"},{"ptr":"3313576133:Number-Stages"},{"ptr":"3313576133:StageOut2~CyclesYesterday"},{"ptr":"3313576133:Number-Stages"},{"ptr":"3313576133:StageOut3~CyclesYesterday"},{"ptr":"3313576133:Number-Stages"},{"ptr":"3313576133:StageStatus1"},{"ptr":"3313576133:Number-Stages"},{"ptr":"3313576133:StageStatus2"},{"ptr":"3313576133:Number-Stages"},{"ptr":"3313576133:StageStatus3"},{"ptr":"3313576133:Number-Stages"},{"ptr":"1215491289:CurPresSetpt"},{"ptr":"1215491289:PercentUsed"},{"ptr":"1215491289:RackFail"},{"ptr":"1215491289:StageOut1"},{"ptr":"1215491289:StageOut10"},{"ptr":"1215491289:StageOut11"},{"ptr":"1215491289:StageOut12"},{"ptr":"1215491289:StageOut13"},{"ptr":"1215491289:StageOut14"},{"ptr":"1215491289:StageOut15"},{"ptr":"1215491289:StageOut16"},{"ptr":"1215491289:StageOut2"},{"ptr":"1215491289:StageOut3"},{"ptr":"1215491289:StageOut4"},{"ptr":"1215491289:StageOut5"},{"ptr":"1215491289:StageOut6"},{"ptr":"1215491289:StageOut7"},{"ptr":"1215491289:StageOut8"},{"ptr":"1215491289:StageOut9"},{"ptr":"1215491289:StagesActive"},{"ptr":"1215491289:SuctionPres"},{"ptr":"1215491289:TotalStages"},{"ptr":"1215491289:ControlType"},{"ptr":"1215491289:Number-Stages"},{"ptr":"1215491289:DischargePres"},{"ptr":"1215491289:CompProof1"},{"ptr":"1215491289:ProofEnable1"},{"ptr":"1215491289:Number-Stages"},{"ptr":"1215491289:CompProof2"},{"ptr":"1215491289:ProofEnable2"},{"ptr":"1215491289:StageType2"},{"ptr":"1215491289:Number-Stages"},{"ptr":"1215491289:StageOut1~CyclesYesterday"},{"ptr":"1215491289:Number-Stages"},{"ptr":"1215491289:StageOut2~CyclesYesterday"},{"ptr":"1215491289:Number-Stages"},{"ptr":"3545542164:ActiveSetpoint"},{"ptr":"3545542164:Input"},{"ptr":"3545542164:Occup"},{"ptr":"3545542164:Output"},{"ptr":"3545542164:StagesOn"},{"ptr":"3545542164:BypassPid"},{"ptr":"3545542164:EngUnits"},{"ptr":"3545542164:NumStages"},{"ptr":"1010636857:AlgStatus"},{"ptr":"1010636857:Ao1"},{"ptr":"1010636857:Ao2"},{"ptr":"1010636857:Ao3"},{"ptr":"1010636857:Ao4"},{"ptr":"1010636857:Do1"},{"ptr":"1010636857:Do2"},{"ptr":"1010636857:Do3"},{"ptr":"1010636857:Do4"},{"ptr":"1010636857:Ao1EngUnit"},{"ptr":"1010636857:Ao2EngUnit"},{"ptr":"1010636857:Ao3EngUnit"},{"ptr":"1010636857:Ao4EngUnit"},{"ptr":"1010636857:NumOfAo"},{"ptr":"1010636857:NumOfDo"},{"ptr":"3591223251:AlgStatus"},{"ptr":"3591223251:Ao1"},{"ptr":"3591223251:Ao2"},{"ptr":"3591223251:Ao3"},{"ptr":"3591223251:Ao4"},{"ptr":"3591223251:Do1"},{"ptr":"3591223251:Do2"},{"ptr":"3591223251:Do3"},{"ptr":"3591223251:Do4"},{"ptr":"3591223251:Ao1EngUnit"},{"ptr":"3591223251:Ao2EngUnit"},{"ptr":"3591223251:Ao3EngUnit"},{"ptr":"3591223251:Ao4EngUnit"},{"ptr":"3591223251:NumOfAo"},{"ptr":"3591223251:NumOfDo"},{"ptr":"2683899464:AlgStatus"},{"ptr":"2683899464:Ao1"},{"ptr":"2683899464:Ao2"},{"ptr":"2683899464:Ao3"},{"ptr":"2683899464:Ao4"},{"ptr":"2683899464:Do1"},{"ptr":"2683899464:Do2"},{"ptr":"2683899464:Do3"},{"ptr":"2683899464:Do4"},{"ptr":"2683899464:Ao1EngUnit"},{"ptr":"2683899464:Ao2EngUnit"},{"ptr":"2683899464:Ao3EngUnit"},{"ptr":"2683899464:Ao4EngUnit"},{"ptr":"2683899464:NumOfAo"},{"ptr":"2683899464:NumOfDo"},{"ptr":"2683899464:Ai1"},{"ptr":"2683899464:Ai1EngUnit"},{"ptr":"2683899464:NumOfAi"},{"ptr":"2683899464:Ai2"},{"ptr":"2683899464:Ai2EngUnit"},{"ptr":"2683899464:NumOfAi"},{"ptr":"2683899464:Ai3"},{"ptr":"2683899464:Ai3EngUnit"},{"ptr":"2683899464:NumOfAi"},{"ptr":"2683899464:Ai4"},{"ptr":"2683899464:Ai4EngUnit"},{"ptr":"2683899464:NumOfAi"},{"ptr":"2683899464:Ai5"},{"ptr":"2683899464:Ai5EngUnit"},{"ptr":"2683899464:NumOfAi"},{"ptr":"1029896549:ActiveSetpoint"},{"ptr":"1029896549:Input"},{"ptr":"1029896549:Occup"},{"ptr":"1029896549:Output"},{"ptr":"1029896549:StagesOn"},{"ptr":"1029896549:BypassPid"},{"ptr":"1029896549:EngUnits"},{"ptr":"1029896549:NumStages"},{"ptr":"2349961563:CalcStpt"},{"ptr":"2349961563:SetPoint"},{"ptr":"2349961563:Status"},{"ptr":"337952849:DischPres"},{"ptr":"337952849:SuctLoadOut"},{"ptr":"337952849:SuctPress"}],"sid":"b2049e12-34c0-46c6-b520-79fc11f37083"},"id":"33"}
+
+# Response: http://www.jsonblob.com/1271216568993177600
+
+### Get Points Description
+#@no-log
+POST http://70.93.249.182/cgi-bin/mgw.cgi
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+
+m={"jsonrpc":"2.0","method":"GetPointsDescription","params":{"points":{"1215491289":["DischargePres","CompProof1","CompProof2","StageOut1~CyclesYesterday","StageOut2~CyclesYesterday"],"2683899464":["Ai1","Ai2","Ai3","Ai4","Ai5"],"3313576133":["DischargePres","CompProof1","CompProof2","CompProof3","StageOut1~CyclesYesterday","StageOut2~CyclesYesterday","StageOut3~CyclesYesterday","StageStatus1","StageStatus2","StageStatus3"]},"sid":"b2049e12-34c0-46c6-b520-79fc11f37083"},"id":"32"}
+
+### Get User Selected Tile Points
+#@no-log
+POST http://70.93.249.182/cgi-bin/mgw.cgi
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+
+m={"jsonrpc":"2.0","method":"GetUserSelectedTilePoints","params":{"user_name":"system.default","iids":["1391366313","3313576133","1215491289","3545542164","1010636857","3591223251","2683899464","1029896549","2349961563","337952849"],"sid":"b2049e12-34c0-46c6-b520-79fc11f37083"},"id":"31"}
+
+### Get Dashboard Summary Props : Anti-sweat
+#@no-log
+POST http://70.93.249.182/cgi-bin/mgw.cgi
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+
+m={"jsonrpc":"2.0","method":"GetDashboardSummaryProps","params":{"apptype":"Enhanced Suction","sid":"b2049e12-34c0-46c6-b520-79fc11f37083"},"id":"26"}
+
+### Touch Session
+#@no-log
+POST http://70.93.249.182/cgi-bin/mgw.cgi
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+
+m=%7B%22jsonrpc%22%3A%222.0%22%2C%22method%22%3A%22TouchSession%22%2C%22params%22%3A%7B%22sid%22%3A%2236dd754b-af81-48be-a673-4ae32830e1b8%22%7D%2C%22id%22%3A%2226%22%7D
+
+### Get Alarm Status
+#@no-log
+POST http://70.93.249.182/cgi-bin/mgw.cgi
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+
+m=%7B%22jsonrpc%22%3A%222.0%22%2C%22method%22%3A%22GetAlarmStatus%22%2C%22params%22%3A%7B%22apps%22%3A%5B%7B%22iid%22%3A%2255560472%22%7D%2C%7B%22iid%22%3A%22143375223%22%7D%2C%7B%22iid%22%3A%22193463531%22%7D%2C%7B%22iid%22%3A%22197987335%22%7D%2C%7B%22iid%22%3A%22214750695%22%7D%2C%7B%22iid%22%3A%22233727933%22%7D%2C%7B%22iid%22%3A%22246357918%22%7D%2C%7B%22iid%22%3A%22246970544%22%7D%2C%7B%22iid%22%3A%22252310672%22%7D%2C%7B%22iid%22%3A%22334619513%22%7D%2C%7B%22iid%22%3A%22337952849%22%7D%2C%7B%22iid%22%3A%22345810294%22%7D%2C%7B%22iid%22%3A%22352405985%22%7D%2C%7B%22iid%22%3A%22353478206%22%7D%2C%7B%22iid%22%3A%22419106710%22%7D%2C%7B%22iid%22%3A%22433319710%22%7D%2C%7B%22iid%22%3A%22438912229%22%7D%2C%7B%22iid%22%3A%22478681269%22%7D%2C%7B%22iid%22%3A%22502944079%22%7D%2C%7B%22iid%22%3A%22507487252%22%7D%2C%7B%22iid%22%3A%22559127397%22%7D%2C%7B%22iid%22%3A%22638436919%22%7D%2C%7B%22iid%22%3A%22644098986%22%7D%2C%7B%22iid%22%3A%22651871851%22%7D%2C%7B%22iid%22%3A%22711129930%22%7D%2C%7B%22iid%22%3A%22812048357%22%7D%2C%7B%22iid%22%3A%22857306470%22%7D%2C%7B%22iid%22%3A%22902973911%22%7D%2C%7B%22iid%22%3A%22931939830%22%7D%2C%7B%22iid%22%3A%22934868449%22%7D%2C%7B%22iid%22%3A%22947927274%22%7D%2C%7B%22iid%22%3A%22993374508%22%7D%2C%7B%22iid%22%3A%22994900581%22%7D%2C%7B%22iid%22%3A%221010636857%22%7D%2C%7B%22iid%22%3A%221017929856%22%7D%2C%7B%22iid%22%3A%221029896549%22%7D%2C%7B%22iid%22%3A%221046021282%22%7D%2C%7B%22iid%22%3A%221060395160%22%7D%2C%7B%22iid%22%3A%221090460882%22%7D%2C%7B%22iid%22%3A%221126750153%22%7D%2C%7B%22iid%22%3A%221131636658%22%7D%2C%7B%22iid%22%3A%221167165328%22%7D%2C%7B%22iid%22%3A%221196687024%22%7D%2C%7B%22iid%22%3A%221206778866%22%7D%2C%7B%22iid%22%3A%221215491289%22%7D%2C%7B%22iid%22%3A%221317650220%22%7D%2C%7B%22iid%22%3A%221330336319%22%7D%2C%7B%22iid%22%3A%221335444432%22%7D%2C%7B%22iid%22%3A%221349094772%22%7D%2C%7B%22iid%22%3A%221377867902%22%7D%2C%7B%22iid%22%3A%221379859554%22%7D%2C%7B%22iid%22%3A%221391018402%22%7D%2C%7B%22iid%22%3A%221391366313%22%7D%2C%7B%22iid%22%3A%221395816264%22%7D%2C%7B%22iid%22%3A%221442481340%22%7D%2C%7B%22iid%22%3A%221457977254%22%7D%2C%7B%22iid%22%3A%221459348632%22%7D%2C%7B%22iid%22%3A%221501179247%22%7D%2C%7B%22iid%22%3A%221614089835%22%7D%2C%7B%22iid%22%3A%221625048372%22%7D%2C%7B%22iid%22%3A%221632624571%22%7D%2C%7B%22iid%22%3A%221635720479%22%7D%2C%7B%22iid%22%3A%221692458648%22%7D%2C%7B%22iid%22%3A%221692621492%22%7D%2C%7B%22iid%22%3A%221693204483%22%7D%2C%7B%22iid%22%3A%221705733276%22%7D%2C%7B%22iid%22%3A%221734066583%22%7D%2C%7B%22iid%22%3A%221782190325%22%7D%2C%7B%22iid%22%3A%221785460199%22%7D%2C%7B%22iid%22%3A%221788155872%22%7D%2C%7B%22iid%22%3A%221799723949%22%7D%2C%7B%22iid%22%3A%221829940302%22%7D%2C%7B%22iid%22%3A%221887862420%22%7D%2C%7B%22iid%22%3A%221889800919%22%7D%2C%7B%22iid%22%3A%221895553612%22%7D%2C%7B%22iid%22%3A%221933810865%22%7D%2C%7B%22iid%22%3A%221949708684%22%7D%2C%7B%22iid%22%3A%221951581936%22%7D%2C%7B%22iid%22%3A%221959129710%22%7D%2C%7B%22iid%22%3A%221980406867%22%7D%2C%7B%22iid%22%3A%222027571097%22%7D%2C%7B%22iid%22%3A%222071707389%22%7D%2C%7B%22iid%22%3A%222086693001%22%7D%2C%7B%22iid%22%3A%222103536839%22%7D%2C%7B%22iid%22%3A%222120181188%22%7D%2C%7B%22iid%22%3A%222137445532%22%7D%2C%7B%22iid%22%3A%222145597974%22%7D%2C%7B%22iid%22%3A%222192298838%22%7D%2C%7B%22iid%22%3A%222235970161%22%7D%2C%7B%22iid%22%3A%222245526722%22%7D%2C%7B%22iid%22%3A%222279888882%22%7D%2C%7B%22iid%22%3A%222289568548%22%7D%2C%7B%22iid%22%3A%222349244243%22%7D%2C%7B%22iid%22%3A%222349961563%22%7D%2C%7B%22iid%22%3A%222350241796%22%7D%2C%7B%22iid%22%3A%222354193289%22%7D%2C%7B%22iid%22%3A%222382520310%22%7D%2C%7B%22iid%22%3A%222391671942%22%7D%2C%7B%22iid%22%3A%222443131199%22%7D%2C%7B%22iid%22%3A%222463729779%22%7D%2C%7B%22iid%22%3A%222469939066%22%7D%2C%7B%22iid%22%3A%222482198089%22%7D%2C%7B%22iid%22%3A%222514956783%22%7D%2C%7B%22iid%22%3A%222548439261%22%7D%2C%7B%22iid%22%3A%222560164008%22%7D%2C%7B%22iid%22%3A%222589891563%22%7D%2C%7B%22iid%22%3A%222611578946%22%7D%2C%7B%22iid%22%3A%222655046755%22%7D%2C%7B%22iid%22%3A%222683899464%22%7D%2C%7B%22iid%22%3A%222685868836%22%7D%2C%7B%22iid%22%3A%222716169907%22%7D%2C%7B%22iid%22%3A%222732750999%22%7D%2C%7B%22iid%22%3A%222771316532%22%7D%2C%7B%22iid%22%3A%222785494515%22%7D%2C%7B%22iid%22%3A%222811893159%22%7D%2C%7B%22iid%22%3A%222828637307%22%7D%2C%7B%22iid%22%3A%222858306225%22%7D%2C%7B%22iid%22%3A%222863876639%22%7D%2C%7B%22iid%22%3A%222890436932%22%7D%2C%7B%22iid%22%3A%222907417985%22%7D%2C%7B%22iid%22%3A%222944865252%22%7D%2C%7B%22iid%22%3A%223009054201%22%7D%2C%7B%22iid%22%3A%223040227021%22%7D%2C%7B%22iid%22%3A%223052261241%22%7D%2C%7B%22iid%22%3A%223071431837%22%7D%2C%7B%22iid%22%3A%223096922540%22%7D%2C%7B%22iid%22%3A%223151440504%22%7D%2C%7B%22iid%22%3A%223216994739%22%7D%2C%7B%22iid%22%3A%223218204900%22%7D%2C%7B%22iid%22%3A%223265589416%22%7D%2C%7B%22iid%22%3A%223277267333%22%7D%2C%7B%22iid%22%3A%223313576133%22%7D%2C%7B%22iid%22%3A%223321497256%22%7D%2C%7B%22iid%22%3A%223394392020%22%7D%2C%7B%22iid%22%3A%223419319444%22%7D%2C%7B%22iid%22%3A%223519666871%22%7D%2C%7B%22iid%22%3A%223521646708%22%7D%2C%7B%22iid%22%3A%223532391169%22%7D%2C%7B%22iid%22%3A%223545542164%22%7D%2C%7B%22iid%22%3A%223563891997%22%7D%2C%7B%22iid%22%3A%223575618553%22%7D%2C%7B%22iid%22%3A%223591223251%22%7D%2C%7B%22iid%22%3A%223592905063%22%7D%2C%7B%22iid%22%3A%223601381422%22%7D%2C%7B%22iid%22%3A%223630310462%22%7D%2C%7B%22iid%22%3A%223655106359%22%7D%2C%7B%22iid%22%3A%223662982511%22%7D%2C%7B%22iid%22%3A%223688705350%22%7D%2C%7B%22iid%22%3A%223736283545%22%7D%2C%7B%22iid%22%3A%223750571858%22%7D%2C%7B%22iid%22%3A%223758006368%22%7D%2C%7B%22iid%22%3A%223758122866%22%7D%2C%7B%22iid%22%3A%223774114149%22%7D%2C%7B%22iid%22%3A%223808024660%22%7D%2C%7B%22iid%22%3A%223827589904%22%7D%2C%7B%22iid%22%3A%223839088666%22%7D%2C%7B%22iid%22%3A%223916052186%22%7D%2C%7B%22iid%22%3A%223927986324%22%7D%2C%7B%22iid%22%3A%223941024541%22%7D%2C%7B%22iid%22%3A%223948239144%22%7D%2C%7B%22iid%22%3A%224060108043%22%7D%2C%7B%22iid%22%3A%224163152206%22%7D%2C%7B%22iid%22%3A%224165789839%22%7D%2C%7B%22iid%22%3A%224198069878%22%7D%2C%7B%22iid%22%3A%224218717264%22%7D%2C%7B%22iid%22%3A%224222046134%22%7D%2C%7B%22iid%22%3A%224234350420%22%7D%2C%7B%22iid%22%3A%224249146563%22%7D%2C%7B%22iid%22%3A%224292394072%22%7D%5D%2C%22sid%22%3A%2236dd754b-af81-48be-a673-4ae32830e1b8%22%7D%2C%22id%22%3A%2224%22%7D
+
+### ===  DOCUMENTED ===
+
+### Get Aggregation Sub Categories Apps
+#@no-log
+POST http://70.93.249.182/cgi-bin/mgw.cgi
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+
+m=%7B%22jsonrpc%22%3A%222.0%22%2C%22method%22%3A%22GetAggregationSubCategoriesApps%22%2C%22params%22%3A%7B%22user%22%3A%22system.default%22%2C%22category%22%3A%22Refrigeration%22%2C%22sid%22%3A%2236dd754b-af81-48be-a673-4ae32830e1b8%22%7D%2C%22id%22%3A%2216%22%7D
+
+# Response: http://www.jsonblob.com/1271202861047209984
+
+### Get Alarms
+#@no-log
+POST http://70.93.249.182/cgi-bin/mgw.cgi
+# Response: https://www.jsonblob.com/1271200033805295616
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+
+m=%7B%22jsonrpc%22%3A%222.0%22%2C%22method%22%3A%22GetAlarms%22%2C%22params%22%3A%7B%22sid%22%3A%2236dd754b-af81-48be-a673-4ae32830e1b8%22%7D%2C%22id%22%3A%2213%22%7D
+
+# Response: http://www.jsonblob.com/1271202505131155456
+
+### Get System Inventory
+# NOTE: Equivilent to GetCellList
+#@no-log
+POST http://70.93.249.182/cgi-bin/mgw.cgi
+# Response: http://www.jsonblob.com/1271201430059737088
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+
+m={"jsonrpc":"2.0","method":"GetSystemInventory","params":{"sid":"44c6ec9d-5d08-453d-88fb-4b246091e8d5"},"id":"12"}
+
+# Response: http://www.jsonblob.com/1271202351216975872
+
+### Get App Types
+#@no-log
+POST http://70.93.249.182/cgi-bin/mgw.cgi
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+
+m={"jsonrpc":"2.0","method":"GetAppTypes","params":{"sid":"44c6ec9d-5d08-453d-88fb-4b246091e8d5"},"id":"11"}
+
+# Response: http://www.jsonblob.com/1271202153895944192
+
+### Get Network Information
+#@no-log
+POST http://70.93.249.182/cgi-bin/mgw.cgi
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+
+m=%7B%22jsonrpc%22%3A%222.0%22%2C%22method%22%3A%22GetNetworkSummary%22%2C%22params%22%3A%7B%22sid%22%3A%2236dd754b-af81-48be-a673-4ae32830e1b8%22%7D%2C%22id%22%3A%228%22%7D
+
+# Response: http://www.jsonblob.com/1271201963080278016
+
+### Get Profile
+#@no-log
+POST http://70.93.249.182/cgi-bin/mgw.cgi
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+
+m=%7B%22jsonrpc%22%3A%222.0%22%2C%22method%22%3A%22GetProfile%22%2C%22params%22%3A%7B%22username%22%3A%22system.default%22%2C%22sid%22%3A%2236dd754b-af81-48be-a673-4ae32830e1b8%22%7D%2C%22id%22%3A%223%22%7D
+
+# Response: http://www.jsonblob.com/1271201747690184704

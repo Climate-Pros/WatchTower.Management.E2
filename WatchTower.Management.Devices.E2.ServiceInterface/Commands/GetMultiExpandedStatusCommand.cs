@@ -13,15 +13,6 @@ namespace WatchTower.Management.Devices.E2.ServiceInterface.Commands;
 
 public class GetMultiExpandedStatusCommand : GetMultiExpandedStatus
 {
-    [Input(Type=Input.Types.Text, Value = "10753")]
-    public int LocationId { get; set; }
-    
-    [Input(Type=Input.Types.Text, Value = "E2 Unit01")]
-    public string ControllerName { get; set; }
-    
-    [Input(Type = Input.Types.Hidden)]
-    public List<string> Points { get; set; }
-
     public override async Task ExecuteAsync(GetMultiExpandedStatus request)
     {
         var sw = Stopwatch.StartNew();

@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Net.Sockets;
 using Microsoft.CodeAnalysis.Options;
 using ServiceStack;
 using ServiceStack.Text;
@@ -26,7 +27,7 @@ public class DeviceCommand<TRequest, TResponse, TResult> : IAsyncCommand<TReques
         return payload;
     }
 
-    protected async Task<TResult?> ExecuteCommand(Uri endpoint, string method,  object[] parameters, Func<string, TResult> results ) 
+    protected async Task<TResult> ExecuteCommand(Uri endpoint, string method,  object[] parameters, Func<string, TResult> results ) 
     {
         return await ExecuteCommand(endpoint, method, 0, results, parameters);
     }
@@ -77,8 +78,8 @@ public class DeviceCommand<TRequest, TResponse, TResult> : IAsyncCommand<TReques
 /// Working on this Profile subset
 /// </summary>
 public static class DeviceCommandExtensions
-{/*
-    public static bool IsOnline(this Uri endpoint,  TimeSpan? timeout = default)
+{
+    public static async Task<bool> IsOnline(this Uri endpoint,  TimeSpan? timeout = default)
     {
         var request = new Tuple<string, Func<Task<bool>>>("Starting controller availability test", async  () =>
         {
@@ -104,8 +105,8 @@ public static class DeviceCommandExtensions
             }
         });
 
-        return request.Profile();
-    }   */
+        return await request.Item2();
+    }   
     
     /*public static async Task Profile(this (string, Func<long, string>) parameters, Func<Task> profile)
     {

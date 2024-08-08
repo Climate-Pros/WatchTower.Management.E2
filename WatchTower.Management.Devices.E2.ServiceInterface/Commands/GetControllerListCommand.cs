@@ -7,11 +7,8 @@ using WatchTower.Management.Devices.Shared;
 
 namespace WatchTower.Management.Devices.E2.ServiceInterface.Commands;
 
-public class GetControllerListCommand : GetControllerList
+public class GetControllerListCommand :  GetControllerList
 {
-    [Input(Type=Input.Types.Text, Value = "10753")]
-    public int LocationId { get; set; }
-
     public override async Task ExecuteAsync(GetControllerList request)
     {
         var response = await ExecuteCommand
