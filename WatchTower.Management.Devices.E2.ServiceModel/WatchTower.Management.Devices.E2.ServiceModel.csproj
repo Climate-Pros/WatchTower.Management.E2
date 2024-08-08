@@ -16,7 +16,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Commands\" />
+      <ProjectReference Include="..\WatchTower.Management.Devices.E2.ServiceModel.Interfaces\WatchTower.Management.Devices.E2.ServiceModel.Interfaces.csproj" />
+      <ProjectReference Include="..\WatchTower.Management.Devices.Shared\WatchTower.Management.Devices.Shared.csproj" />
     </ItemGroup>
 
 </Project>

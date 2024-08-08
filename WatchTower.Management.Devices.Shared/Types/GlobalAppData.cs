@@ -1,6 +1,4 @@
-using WatchTower.Management.Devices.E2.ServiceInterface.Commands.Types;
-
-namespace WatchTower.Management.Devices.E2.ServiceInterface;
+namespace WatchTower.Management.Devices.Shared.Types;
 
 public class GlobalAppData
 {

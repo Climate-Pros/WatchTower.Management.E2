@@ -2,9 +2,9 @@ using ServiceStack.Data;
 using ServiceStack.OrmLite;
 using ServiceStack.Text;
 using WatchTower.Management.Devices.E2.ServiceInterface;
-using WatchTower.Management.Devices.E2.ServiceInterface.Commands.Types;
 using WatchTower.Management.Devices.Manager;
 using WatchTower.Management.Devices.Manager.Migrations;
+using WatchTower.Management.Devices.Shared.Types;
 using Config = ServiceStack.Text.Config;
 
 [assembly: HostingStartup(typeof(AppHost))]

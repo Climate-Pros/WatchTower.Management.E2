@@ -17,4 +17,8 @@
         <ProjectReference Include="..\WatchTower.Management.Devices.E2.ServiceModel\WatchTower.Management.Devices.E2.ServiceModel.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Commands\Types\" />
+    </ItemGroup>
+
 </Project>

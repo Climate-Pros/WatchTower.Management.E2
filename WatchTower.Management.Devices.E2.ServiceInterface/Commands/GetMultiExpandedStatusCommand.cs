@@ -2,16 +2,16 @@ using System.Collections.Concurrent;
 using System.Diagnostics;
 using ServiceStack;
 using ServiceStack.Html;
-using ServiceStack.Text;
-using WatchTower.Management.Devices.E2.ServiceInterface.Commands.Types;
 using WatchTower.Management.Devices.E2.ServiceModel;
 using WatchTower.Management.Devices.E2.ServiceModel.Commands.GetCellList;
-using WatchTower.Management.Devices.E2.ServiceModel.Commands.GetControllerList;
 using WatchTower.Management.Devices.E2.ServiceModel.Commands.GetMultiExpandedStatus;
+using WatchTower.Management.Devices.Shared;
+using static WatchTower.Management.Devices.E2.ServiceModel.Commands.Types;
+using Result = WatchTower.Management.Devices.E2.ServiceModel.Commands.GetMultiExpandedStatus.Result;
 
 namespace WatchTower.Management.Devices.E2.ServiceInterface.Commands;
 
-public class GetMultiExpandedStatusCommand : E2Command<GetMultiExpandedStatus, List<MultiExpandStatus>>
+public class GetMultiExpandedStatusCommand : GetMultiExpandedStatus
 {
     [Input(Type=Input.Types.Text, Value = "10753")]
     public int LocationId { get; set; }
@@ -25,14 +25,15 @@ public class GetMultiExpandedStatusCommand : E2Command<GetMultiExpandedStatus, L
     public override async Task ExecuteAsync(GetMultiExpandedStatus request)
     {
         var sw = Stopwatch.StartNew();
-        var cells = await CommandExecutor.ExecuteWithResultAsync(new GetCellListCommand(), new GetCellList { LocationId = request.LocationId, ControllerName = request.ControllerName });
-
+        var results = await CommandExecutor.ExecuteWithResultAsync(new GetCellListCommand(), new GetCellList { LocationId = request.LocationId, ControllerName = request.ControllerName });
+        var cells = results.Result.Data;
+        
         cells.Each(cell =>
         {
             var applicationGroupName = ApplicationTypes.SingleOrDefault(_ => _.Type.ToString() == cell.CellType.ToString());
 
             if (applicationGroupName?.Name is null) return;
-            
+
             var applicationGroup = ApplicationGroups.SingleOrDefault(_ => _.Name == applicationGroupName.Name);
 
             if (applicationGroup?.Name == null) return;
@@ -45,43 +46,43 @@ public class GetMultiExpandedStatusCommand : E2Command<GetMultiExpandedStatus, L
         var batchResults = new ConcurrentBag<MultiExpandStatus>();
         var pointBatches = request.Points.BatchesOf(20);
 
-        await Parallel.ForEachAsync( pointBatches.AsParallel(), new ParallelOptions(){  MaxDegreeOfParallelism = 1 }, async (batch, idx) =>
-        //await pointBatches.EachAsync( async (batch, i) => 
+        await Parallel.ForEachAsync(pointBatches.AsParallel(), new ParallelOptions() { MaxDegreeOfParallelism = 1 }, async (batch, idx) =>
         {
+
             request.Points = batch.ToList();
 
-            //var values = await CommandExecutor.ExecuteWithResultAsync(new GetMultiExpandedStatusCommand(), request);
-            var result = await ExecuteE2Command<GetMultiExpandedStatusResult>
+            var response = await ExecuteCommand
             (
                 GetEndpointByLocationId(request.LocationId),
                 "E2.GetMultiExpandedStatus",
-                json => json.FromJson<GetMultiExpandedStatusResult>(),
-                [batch.ToObjects()]
+                [batch.ToObjects()],
+                json => json.FromJson<GetMultiExpandedStatusResult>()
             );
 
-            var innerCellList = cells;
+            var variables = response.Result.Data;
             
-            result.Result.Results.Each(innerCell =>
+            variables.Each(_variable =>
             {
-                FormatCell(ref innerCell, innerCellList);
+                FormatCell(ref _variable, cells.ToList());
 
-                batchResults.Add(innerCell);
+                batchResults.Add(_variable);
             });
+            
+            response = null;
 
-            innerCellList = null;
-            result = null;
         });
-
         sw.Stop();
-
-        Result = batchResults.OrderBy(_ => _.Prop).ToList();
-
-        cells = null;
-        sw = null;
-        batchResults = null;
         
-        GC.Collect();
-    }
+        Result = new GetMultiExpandedStatusResult
+        {
+            Result = new Result
+            {
+                Data = batchResults.OrderBy(_ => _.Prop).ToList()
+            }
+        };
+        
+        batchResults = null;
+   }
 
     private static void FormatCell(ref MultiExpandStatus _, List<Cell> cellList)
     {

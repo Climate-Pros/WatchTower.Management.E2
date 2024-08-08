@@ -1,49 +1,24 @@
 using System.Diagnostics;
-using System.Net.Http.Json;
-using System.Net.Sockets;
-using Microsoft.Extensions.Logging;
+using Microsoft.CodeAnalysis.Options;
 using ServiceStack;
-using ServiceStack.Html;
 using ServiceStack.Text;
-using WatchTower.Management.Devices.E2.ServiceModel;
-using WatchTower.Management.Devices.E2.ServiceModel.Commands.Enums;
-using WatchTower.Management.Devices.E2.ServiceModel.Types;
+using WatchTower.Management.Devices.E2.ServiceModel.Interfaces;
+using WatchTower.Management.Devices.Shared.Enums;
+using WatchTower.Management.Devices.Shared.Types;
 
-namespace WatchTower.Management.Devices.E2.ServiceInterface.Commands.Types;
+namespace WatchTower.Management.Devices.Shared;
 
-public class E2Command<TRequest, TResult> : IAsyncCommand<TRequest, TResult>  where TRequest : class, new()
+public class DeviceCommand<TRequest, TResponse, TResult> : IAsyncCommand<TRequest,TResult>, IReturn<TResponse>
+    where TRequest : class,  IReturn<TResponse>, new()
+    where TResponse : class, IHasResult<TResult>
+    where TResult : class, IHasResultData, new()
+
 {
     protected ICommandExecutor CommandExecutor => HostContext.Resolve<ICommandExecutor>();
+    private Scheme _scheme;
+    private string _host;
+
     public TResult Result { get; set; }
-    public Uri Endpoint { get; protected set; }
-
-    protected Scheme scheme;
-    protected string host;
-
-    private List<ApplicationType>? _applicationTypes = default;
-    private List<ApplicationGroup>? _applicationGroups = default;
-    
-    protected List<ApplicationType> ApplicationTypes
-    {
-        get
-        {
-            if (_applicationTypes is null)
-                _applicationTypes = ((GetApplicationTypesResponse)HostContext.AppHost.ExecuteService(new GetApplicationTypes())).Result;
-
-            return _applicationTypes;
-        }
-    }
-
-    protected List<ApplicationGroup> ApplicationGroups
-    {
-        get
-        {
-            if (_applicationGroups is null)
-                _applicationGroups =  ((GetApplicationGroupsResponse)HostContext.AppHost.ExecuteService(new GetApplicationGroups())).Result;
-
-            return _applicationGroups;
-        }
-    }
 
     private string CreatePayload(int id, string method, List<dynamic>? parameters = default)
     {
@@ -51,25 +26,26 @@ public class E2Command<TRequest, TResult> : IAsyncCommand<TRequest, TResult>  wh
         return payload;
     }
 
-    protected async Task<TResponse> ExecuteE2Command<TResponse>(Uri endpoint, string method, Func<string, TResponse> func, params object[] parameters )
+    protected async Task<TResult?> ExecuteCommand(Uri endpoint, string method,  object[] parameters, Func<string, TResult> results ) 
     {
-        return await ExecuteE2Command(endpoint, method, 0, func, parameters);
+        return await ExecuteCommand(endpoint, method, 0, results, parameters);
     }
 
-    protected async Task<TResponse> ExecuteE2Command<TResponse>(Uri endpoint, string method, int id, Func<string, TResponse> func, params object[] parameters )
+    protected async Task<TResult> ExecuteCommand(Uri endpoint, string method, int id, Func<string, TResult> body, params object[] parameters )
     {
         try
-        {
-             
-            
-            var results = await HostContext.Resolve<HttpClient>().SendStringToUrlAsync(
+        {   
+            var response = await HostContext.Resolve<HttpClient>().SendStringToUrlAsync(
                 url: endpoint.ToString(),
                 method: "POST",
                 requestBody: CreatePayload(id, method, parameters.ToList()),
                 contentType: "text/plain"
             );
+
+
+            var result = body(response);
             
-            return func( results );
+            return result;
         }
         catch (Exception ex)
         {
@@ -91,17 +67,16 @@ public class E2Command<TRequest, TResult> : IAsyncCommand<TRequest, TResult>  wh
         
         if (location is null)
             throw new InvalidOperationException($"Unable to find a location with an id: {locationId}");
-        else
-        {
-            scheme = Scheme.HTTP;
-            host = location.IP;
 
-            return new Uri($"{scheme}://{host}:14106/JSON-RPC");            
-        }
+        return new($"{Scheme.HTTP}://{location.IP}:14106/JSON-RPC");
     }
 }
 
-public static class E2CommandExtensions
+
+/// <summary>
+/// Working on this Profile subset
+/// </summary>
+public static class DeviceCommandExtensions
 {/*
     public static bool IsOnline(this Uri endpoint,  TimeSpan? timeout = default)
     {
@@ -136,7 +111,7 @@ public static class E2CommandExtensions
     {
         var startText = parameters.Item1;
         var endText = parameters.Item2;
-        
+
         startText.Print();
         var sw = new Stopwatch();
         sw.Start();

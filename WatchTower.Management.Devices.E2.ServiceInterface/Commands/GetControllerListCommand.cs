@@ -1,26 +1,27 @@
+using Microsoft.CodeAnalysis.Options;
 using ServiceStack;
 using ServiceStack.Html;
-using WatchTower.Management.Devices.E2.ServiceInterface.Commands.Types;
 using WatchTower.Management.Devices.E2.ServiceModel;
 using WatchTower.Management.Devices.E2.ServiceModel.Commands.GetControllerList;
+using WatchTower.Management.Devices.Shared;
 
 namespace WatchTower.Management.Devices.E2.ServiceInterface.Commands;
 
-public class GetControllerListCommand : E2Command<GetControllerList, List<Controller>>
+public class GetControllerListCommand : GetControllerList
 {
     [Input(Type=Input.Types.Text, Value = "10753")]
     public int LocationId { get; set; }
 
     public override async Task ExecuteAsync(GetControllerList request)
     {
-        var result = await ExecuteE2Command<GetControllerListResult>
+        var response = await ExecuteCommand
         (
-            GetEndpointByLocationId(request.LocationId), 
-            "E2.GetControllerList", 
-            json => json.FromJson<GetControllerListResult>(),
-            [1] 
+           endpoint: GetEndpointByLocationId(request.LocationId), 
+            method: "E2.GetControllerList", 
+            parameters: [1],
+            json => json.FromJson<GetControllerListResult>()
         ); 
         
-        Result = result.Controllers;
+        Result = response;
     }
 }

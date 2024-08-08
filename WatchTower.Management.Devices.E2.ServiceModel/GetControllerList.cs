@@ -1,16 +1,18 @@
+using Microsoft.CodeAnalysis.Options;
 using ServiceStack;
 using WatchTower.Management.Devices.E2.ServiceModel.Commands.GetControllerList;
+using WatchTower.Management.Devices.Shared;
 
 namespace WatchTower.Management.Devices.E2.ServiceModel;
 
-[Tag("Controller Data")]
-public class GetControllerList : IReturn<GetControllerListResponse>
+[Tag("E2")]
+public class GetControllerList : DeviceCommand<GetControllerList, GetControllerListResponse, GetControllerListResult>
 {
     public int LocationId { get; set; }
 }
 
-public class GetControllerListResponse : IHasResult<List<Controller>>, IHasResponseStatus
+public class GetControllerListResponse : IHasResult<GetControllerListResult>
 {
-    public List<Controller> Result { get; set; }
+    public GetControllerListResult Result { get; set; }
     public ResponseStatus ResponseStatus { get; set; }
 }

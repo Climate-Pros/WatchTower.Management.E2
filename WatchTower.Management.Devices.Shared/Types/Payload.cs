@@ -1,6 +1,6 @@
 using System.Runtime.Serialization;
 
-namespace WatchTower.Management.Devices.E2.ServiceInterface.Commands.Types;
+namespace WatchTower.Management.Devices.Shared.Types;
 
 [DataContract]
 public class Payload

@@ -1,17 +1,19 @@
+using Microsoft.CodeAnalysis.Options;
 using ServiceStack;
 using WatchTower.Management.Devices.E2.ServiceModel.Commands.GetCellList;
+using WatchTower.Management.Devices.Shared;
 
 namespace WatchTower.Management.Devices.E2.ServiceModel;
 
-[Tag("Controller Data")]
-public class GetCellList() : IReturn<GetCellListResponse>
+[Tag("E2")]
+public class GetCellList : IReturn<GetCellListResponse>
 {
     public int LocationId { get; set; }
     public string ControllerName { get; set; }
 }
 
-public class GetCellListResponse : IHasResult<List<Cell>>, IHasResponseStatus
+public class GetCellListResponse : IHasResult<GetCellListResult>
 {
-    public List<Cell> Result { get; set; }
+    public GetCellListResult Result { get; set; }
     public ResponseStatus ResponseStatus { get; set; }
 }

@@ -1,6 +1,5 @@
 using NUnit.Framework;
 using ServiceStack.OrmLite;
-using WatchTower.Management.Devices.E2.Migrations;
 using ServiceStack;
 using ServiceStack.Data;
 using WatchTower.Management.Devices.Manager;

@@ -1,13 +1,9 @@
 using System.Diagnostics;
 using ServiceStack;
-using ServiceStack.Script;
 using ServiceStack.Text;
 using WatchTower.Management.Devices.E2.ServiceInterface.Commands;
-using WatchTower.Management.Devices.E2.ServiceInterface.Commands.Types;
 using WatchTower.Management.Devices.E2.ServiceModel;
-using WatchTower.Management.Devices.E2.ServiceModel.Commands.Enums;
 using WatchTower.Management.Devices.E2.ServiceModel.Commands.GetMultiExpandedStatus;
-using WatchTower.Management.Devices.E2.ServiceModel.Types;
 
 namespace WatchTower.Management.Devices.E2.ServiceInterface;
 
@@ -15,37 +11,28 @@ public class CommandServices() : Service
 {
     public ICommandExecutor CommandExecutor => HostContext.Resolve<ICommandExecutor>();
 
-    /*public async Task<object> Any(GetControllerList request)
-    {
-        var result = await CommandExecutor.ExecuteWithResultAsync(new GetControllerListCommand { LocationId = request.LocationId}, request);
-
-        return new GetControllerListResponse
-        {
-            Result = result
-        };
-    }*/
-
-    /*public async Task<object> Any(GetCellList request)
-    {
-        await request.ExecuteAsync(new GetCellListCommand(request.LocationId) { ControllerName = request.ControllerName });
-
-        return new GetCellListResponse
-        {
-            Result = request.Result
-        };
-    }*/
-    
     public async Task<object> Any(GetMultiExpandedStatus request)
     {
         var sw = Stopwatch.StartNew();
         var applicationTypes = Gateway.Send(new GetApplicationTypes()).Result;
         var applicationGroups = Gateway.Send(new GetApplicationGroups()).Result;
-        //var cells = ((GetCellListResponse)await Any(new GetCellList() { LocationId = request.LocationId, ControllerName = request.ControllerName })).Result;
-        var cells = await CommandExecutor.ExecuteWithResultAsync(new GetCellListCommand { LocationId = request.LocationId }, new GetCellList { LocationId = request.LocationId, ControllerName = request.ControllerName });
+
+        var cellListRequest = new GetCellListCommand();
+        
+        await cellListRequest.ExecuteAsync( new GetCellList
+        {
+            LocationId = request.LocationId,
+            ControllerName = request.ControllerName
+        });
+        
+        var response = cellListRequest.Result
+            ?.Result
+            ?.Data
+        ;
         
         var points = new List<string>();
         
-        cells.Each(cell =>
+        response?.Each(cell =>
         {
             var applicationGroupName = applicationTypes.SingleOrDefault(_ => _.Type.ToString() == cell.CellType.ToString())?.Name;
 
@@ -83,7 +70,7 @@ public class CommandServices() : Service
             
             var values = await CommandExecutor.ExecuteWithResultAsync(new GetMultiExpandedStatusCommand { LocationId = request.LocationId }, request);
             
-            batchResults.AddRange(values);
+            batchResults.AddRange(values.Result.Data);
         });
         
         sw.Stop();
@@ -91,7 +78,13 @@ public class CommandServices() : Service
         return new GetMultiExpandedStatusResponse
         {
             Stopwatch = sw.Elapsed.ToString(),
-            Result = [batchResults.Where(_ => _.Value is not null).ToList()]
+            Result = new GetMultiExpandedStatusResult
+            {
+                Result = new Result 
+                {
+                    Data = batchResults.Where(_ => _.Value is not null).ToList()
+                }
+            }
         };
     }
 }

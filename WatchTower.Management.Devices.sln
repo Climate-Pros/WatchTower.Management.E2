@@ -25,6 +25,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.1 - Device Manager", "2.1
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.2 - Shared", "2.2 - Shared", "{A17F6E07-5E33-400E-9525-A4CFDC6C4C6A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WatchTower.Management.Devices.Shared", "WatchTower.Management.Devices.Shared\WatchTower.Management.Devices.Shared.csproj", "{4FA39C30-6842-4AE8-A7F6-53A909336D99}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WatchTower.Management.Devices.E2.ServiceModel.Interfaces", "WatchTower.Management.Devices.E2.ServiceModel.Interfaces\WatchTower.Management.Devices.E2.ServiceModel.Interfaces.csproj", "{BA9A914C-5C84-4644-989D-82C17E876BA5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +51,14 @@ Global
 		{809BBACF-CA46-482D-8206-AC05F293AE55}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{809BBACF-CA46-482D-8206-AC05F293AE55}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{809BBACF-CA46-482D-8206-AC05F293AE55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FA39C30-6842-4AE8-A7F6-53A909336D99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FA39C30-6842-4AE8-A7F6-53A909336D99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FA39C30-6842-4AE8-A7F6-53A909336D99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FA39C30-6842-4AE8-A7F6-53A909336D99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA9A914C-5C84-4644-989D-82C17E876BA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA9A914C-5C84-4644-989D-82C17E876BA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA9A914C-5C84-4644-989D-82C17E876BA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA9A914C-5C84-4644-989D-82C17E876BA5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,5 +74,7 @@ Global
 		{909B4A6C-0B68-428A-BA58-1082ADDB3609} = {D76F0449-9C9F-4F3E-BAE4-60C7BD54516E}
 		{BE57A405-8C57-4A63-8445-890EFDFA36A0} = {909B4A6C-0B68-428A-BA58-1082ADDB3609}
 		{A17F6E07-5E33-400E-9525-A4CFDC6C4C6A} = {D76F0449-9C9F-4F3E-BAE4-60C7BD54516E}
+		{4FA39C30-6842-4AE8-A7F6-53A909336D99} = {A17F6E07-5E33-400E-9525-A4CFDC6C4C6A}
+		{BA9A914C-5C84-4644-989D-82C17E876BA5} = {D157A020-2BA2-4611-BA85-E48236D00ED3}
 	EndGlobalSection
 EndGlobal

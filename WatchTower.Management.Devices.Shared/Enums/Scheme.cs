@@ -1,6 +1,6 @@
 using ServiceStack.DataAnnotations;
 
-namespace WatchTower.Management.Devices.E2.ServiceModel.Commands.Enums;
+namespace WatchTower.Management.Devices.Shared.Enums;
 
 public enum Scheme
 {
