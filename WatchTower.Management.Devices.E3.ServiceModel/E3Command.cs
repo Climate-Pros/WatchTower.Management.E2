@@ -1,5 +1,6 @@
 using System.Runtime.Serialization;
 using ServiceStack;
+using ServiceStack.Html;
 using WatchTower.Management.Devices.E2.ServiceModel.Interfaces;
 using WatchTower.Management.Devices.Shared;
 
@@ -17,22 +18,6 @@ public abstract class E3Command<TRequest, TResponse, TResult> : DeviceCommand<TR
     where TResponse : E3CommandResponse<TResult>
     where TResult : class, IHasResultData, new()
 {
-    /*private long minId = long.Parse(int.MaxValue.ToString()) - 1000000000;
-    private long maxId = long.Parse(int.MaxValue.ToString());
-    
-    [DataMember(Name = "id")] 
-    public string Id => new Random().NextInt64(minId, maxId).ToString();
-
-    [DataMember(Name = "jsonrpc")] 
-    public string Jsonrpc { get; set; } = "2.0";
-
-    [DataMember(Name = "method")] 
-    public string Method => _method;
-
-    [DataMember(Name = "params")] 
-    public E3CommandParameters Params { get; set; } = new();
-    */
-
     protected override void SetMethod(string? value)
     {
         if (value is not null)
@@ -100,18 +85,22 @@ public abstract class E3CommandRequest<TRequest, TResponse, TResult> : E3Command
     where TResult : class, IHasResultData, new()
 {
     [DataMember(Name = "id")] 
+    [Input(Type = Input.Types.Hidden)]
     public string Id { get; set; } = new Random().Next(1000000000, 2000000000).ToString();
 
     [DataMember(Name = "jsonrpc")] 
+    [Input(Type = Input.Types.Hidden)]
     public string JsonRPC { get; set; } = "2.0";
 
     [DataMember(Name = "method")] 
+    [Input(Type = Input.Types.Hidden)]
     public string Method { get; set; } = typeof(TRequest).Name;
     
     [DataMember(Name = "params")] 
+    [Input(Type = Input.Types.Hidden)]
     public List<object>? Parameters { get; set; }
 
-    public E3CommandRequest(params object[] parameters)
+    protected E3CommandRequest(params object[] parameters)
     {
         if (parameters.Length > 0)
             Parameters.AddRange(parameters);
