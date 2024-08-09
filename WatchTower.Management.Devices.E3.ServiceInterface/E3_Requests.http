@@ -4,8 +4,20 @@
 POST http://70.93.249.182/cgi-bin/mgw.cgi
 Content-Type: application/x-www-form-urlencoded; charset=UTF-8
 
-m={"jsonrpc":"2.0","method":"GetSessionID","id":"1"}
+m={"jsonrpc":"2.0","method":"GetSessionID","id":"1", "locationId": "233"}
 # Response: http://www.jsonblob.com/1271216274515288064
+
+### Get Session
+#@no-log
+POST http://70.93.249.182/cgi-bin/mgw.cgi
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+
+#m={"jsonrpc":"2.0","method":"GetSessionID","id":"1", "locationId": "233"}
+ m={"jsonrpc":"2.0","method":"GetSessionID","id":"1014618589","locationId":1}
+# Response: http://www.jsonblob.com/1271216274515288064
+
+
+
 
 ### Get System Information
 #@no-log

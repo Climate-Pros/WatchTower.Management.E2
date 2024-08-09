@@ -1,25 +1,23 @@
 using ServiceStack;
-using WatchTower.Management.Devices.E3.ServiceModel;
 using WatchTower.Management.Devices.E3.ServiceModel.Types.GetSystemInventory;
-using WatchTower.Management.Devices.Shared;
 
 namespace WatchTower.Management.Devices.E3.ServiceModel;
 
-public class GetSystemInventory : E3Command<GetSystemInventory, GetSystemInventoryResponse, GetSystemInventoryResult>
+[Tag("E3 - 2. Commands")]
+public class GetSystemInventory : E3CommandRequest<GetSystemInventory, GetSystemInventoryResponse, GetSystemInventoryResult>
 {
-
-    protected GetSystemInventory(int locationId) : base(locationId)
+    protected override string RequestFilter(GetSystemInventory request)
     {
-        LocationId = locationId;
+        return $"m={request.ToJson()}";
     }
-    
+
     protected override GetSystemInventoryResult ResponseFilter(string json)
     {
         return json.FromJson<GetSystemInventoryResult>();
     }
 }
 
-public class GetSystemInventoryResponse : IHasResult<GetSystemInventoryResult>
+public class GetSystemInventoryResponse : E3CommandResponse<GetSystemInventoryResult>
 {
     public GetSystemInventoryResult Result { get; set; }
 }
@@ -39,19 +37,6 @@ public class GetSystemInventoryCommand : GetSystemInventory
         null,
         json => json.FromJson<GetSystemInventoryResult>()
     }*/
-
-    
-    public GetSystemInventoryCommand(int locationId) : base(locationId)
-    {
-        LocationId = locationId;
-    }
-
-    /*
-    protected override async Task<GetSystemInventoryResult> ExecuteCommand(GetSystemInventory request, Func<string, GetSystemInventoryResult> responseFilter)
-    {
-        
-    }
-    */
 
     protected override GetSystemInventoryResult ResponseFilter(string json)
     {

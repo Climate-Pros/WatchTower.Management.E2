@@ -10,4 +10,8 @@
       <ProjectReference Include="..\WatchTower.Management.Devices.Shared\WatchTower.Management.Devices.Shared.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Commands\Types\" />
+    </ItemGroup>
+
 </Project>

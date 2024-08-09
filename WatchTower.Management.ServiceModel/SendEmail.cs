@@ -4,6 +4,7 @@ namespace WatchTower.Management.ServiceModel;
 
 //[ExcludeMetadata]
 //[Restrict(InternalOnly = true)]
+[Tag("System")]
 public class SendEmail : IReturn<EmptyResponse>
 {
     public string To { get; set; }

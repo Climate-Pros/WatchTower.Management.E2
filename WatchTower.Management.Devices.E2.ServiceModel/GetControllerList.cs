@@ -5,7 +5,7 @@ using WatchTower.Management.Devices.E2.ServiceModel.Types;
 namespace WatchTower.Management.Devices.E2.ServiceModel;
 
 [Tag("E2 - 2. Commands")]
-public class GetControllerList : E2Command<GetControllerList, GetControllerListResponse, GetControllerListResult>
+public class GetControllerList : E2CommandRequest<GetControllerList, GetControllerListResponse, GetControllerListResult>
 {
 
     public override async Task ExecuteAsync(GetControllerList request)
@@ -15,13 +15,20 @@ public class GetControllerList : E2Command<GetControllerList, GetControllerListR
         await base.ExecuteAsync(request);
     }
 
+    protected override string RequestFilter(GetControllerList request)
+    {
+        var result  = CreatePayload(1);
+
+        return result.ToJson();
+    }
+
     protected override GetControllerListResult ResponseFilter(string json)
     {
         return json.FromJson<GetControllerListResult>();
     }
 }
 
-public class GetControllerListResponse : IHasResult<GetControllerListResult>
+public class GetControllerListResponse : E2CommandResponse<GetControllerListResult>
 {
     public GetControllerListResult Result { get; set; }
     public ResponseStatus ResponseStatus { get; set; }

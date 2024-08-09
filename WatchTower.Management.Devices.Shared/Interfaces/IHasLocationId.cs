@@ -5,5 +5,5 @@ public interface IHasLocationId
     /// <summary>
     /// 
     /// </summary>
-    public int LocationId { get; set; }    
+    public int? LocationId { get; set; }    
 }

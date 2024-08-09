@@ -1,9 +1,6 @@
-using Funq;
-using ServiceStack.Configuration;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 using ServiceStack.Text;
-using WatchTower.Management.ServiceModel.Types;
 using WatchTower.Management.Devices.Manager;
 using WatchTower.Management.Devices.Manager.Migrations;
 using WatchTower.Management.Devices.Shared.Types;

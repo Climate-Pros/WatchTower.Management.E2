@@ -1,24 +1,24 @@
 using System.Diagnostics;
-using System.Net.Http.Headers;
 using System.Net.Sockets;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using ServiceStack;
 using ServiceStack.Text;
 using WatchTower.Management.Devices.E2.ServiceModel.Interfaces;
 using WatchTower.Management.Devices.Shared.Enums;
+using WatchTower.Management.Devices.Shared.Interfaces;
 using WatchTower.Management.Devices.Shared.Types;
 
 namespace WatchTower.Management.Devices.Shared;
 
 public class ContentType
 {
+    public static string ApplicationJson => "application/json";
     public static string TextPlain => "text/plain";
     public static string ApplicationWWWFormUrlEncoded => "application/x-www-form-urlencoded";
     public static string ApplicationWWWFormUrlEncodedAsUtf8 => "application/x-www-form-urlencoded; charset=UTF-8";
 }
 
 public abstract class DeviceCommand<TRequest, TResponse, TResult> : IAsyncCommand<TRequest,TResult>, IReturn<TResponse>, IHasLocationId
-    where TRequest : DeviceCommand<TRequest, TResponse, TResult>
+    where TRequest : class //DeviceCommand<TRequest, TResponse, TResult>
     where TResponse : class, IHasResult<TResult>
     where TResult : class, IHasResultData, new()
 
@@ -71,7 +71,7 @@ public abstract class DeviceCommand<TRequest, TResponse, TResult> : IAsyncComman
         return _contentType;
     }
 
-    protected abstract string CreatePayload(TRequest request);
+    protected abstract string CreatePayload(params object[] parameters);
     /*{
         throw new InvalidOperationException("FATAL: Override the CreatePayload method");        
     }*/
@@ -80,8 +80,8 @@ public abstract class DeviceCommand<TRequest, TResponse, TResult> : IAsyncComman
     {
         var response = await HostContext.Resolve<HttpClient>().SendStringToUrlAsync(
             url: _endpoint.ToString(),
-            method: _method,
-            requestBody: CreatePayload(request),
+            method: "POST",
+            requestBody: RequestFilter(request),
             contentType: _contentType
         );
         
@@ -103,6 +103,10 @@ public abstract class DeviceCommand<TRequest, TResponse, TResult> : IAsyncComman
         Result = await ExecuteCommand(request, ResponseFilter);
     }
 
+    protected virtual string RequestFilter(TRequest request)
+    {
+        return CreatePayload([1]);
+    }
     protected abstract TResult ResponseFilter(string json);
 
     protected Dictionary<int, string> _endpointCache = new(); 
@@ -129,7 +133,7 @@ public abstract class DeviceCommand<TRequest, TResponse, TResult> : IAsyncComman
         return new Uri($"{Scheme.HTTP}://{ip}");
     }
 
-    public virtual int LocationId { get; set; }
+    public virtual int? LocationId { get; set; }
 }
 
 /// <summary>

@@ -15,6 +15,7 @@ using ServiceStack.Configuration;
 using ServiceStack.Logging;
 using WatchTower.Management.Devices.E2.ServiceInterface;
 using WatchTower.Management.Devices.E2.ServiceInterface.Data;
+using WatchTower.Management.Devices.E3.ServiceInterface;
 using WatchTower.Management.Devices.Manager;
 using WatchTower.Management.Devices.Manager.Components;
 using WatchTower.Management.Devices.Manager.Components.Account;
@@ -115,7 +116,7 @@ services.AddHangfire((provider, configuration) =>
 // Register all services
 services.AddServiceStack([
     typeof( E2Service ).Assembly, 
-    typeof( E2Service ).Assembly, 
+    typeof( E3Service ).Assembly, 
     typeof( EmailServices ).Assembly
 ], o =>
 {
@@ -151,7 +152,7 @@ else
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 app.UseAntiforgery();

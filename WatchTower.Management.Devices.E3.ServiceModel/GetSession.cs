@@ -1,30 +1,44 @@
 using ServiceStack;
-using WatchTower.Management.Devices.E3.ServiceModel;
 using WatchTower.Management.Devices.E3.ServiceModel.Types.GetSession;
 
 namespace WatchTower.Management.Devices.E3.ServiceModel;
 
 [Tag("E3 - 2. Commands")]
-public class GetSession : E3Command<GetSession, GetSessionResponse, GetSessionResult>
+public class GetSessionID : E3CommandRequest<GetSessionID, GetSessionIDResponse, GetSessionIDResult>
 {
-    protected GetSession(int locationId) : base(locationId)
+    protected override string RequestFilter(GetSessionID request)
     {
+        var _payload = request.ToObjectDictionary();
+
+        var locationIdKey = nameof(request.LocationId);
+        var parametersKey = nameof(request.Parameters);
+        
+        if (_payload.ContainsKey(locationIdKey))
+            _payload.Remove(locationIdKey);
+
+        if (_payload.ContainsKey(parametersKey))
+        {
+            var parameters = (List<object>?)_payload[parametersKey];
+
+            if (parameters is not null && !parameters.Any())
+                _payload.Remove(parametersKey);
+        }
+
+        var __payload = _payload.FromObjectDictionary<GetSessionID>();
+        
+        return $"m={__payload.ToJson()}";
     }
 
-    protected override GetSessionResult ResponseFilter(string json)
+    protected override GetSessionIDResult ResponseFilter(string json)
     {
-        return json.FromJson<GetSessionResult>();
+        Result = json.FromJson<GetSessionIDResult>();
+
+        return Result;
     }
 }
 
-public class GetSessionResponse : E3CommandResponse<GetSessionResult>
+public class GetSessionIDResponse : E3CommandResponse<GetSessionIDResult>
 {
-    public GetSessionResult Result { get; set; }
+    public GetSessionIDResult Result { get; set; }
 }
 
-public class GetSessionCommand : GetSession
-{
-    public GetSessionCommand(int locationId) : base(locationId)
-    {
-    }
-}
