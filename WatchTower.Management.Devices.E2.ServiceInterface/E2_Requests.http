@@ -5,9 +5,11 @@ POST http://166.250.144.234:14106/JSON-RPC
 Content-Type: application/json
 
 {
-  "id": 0,
+  "id": 1047824637,
   "method": "E2.GetControllerList",
-  "params": [1]
+  "params": [
+    1
+  ]
 }
 
 ### Get Cell List

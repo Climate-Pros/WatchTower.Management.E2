@@ -19,7 +19,7 @@ public class GetControllerList : E2CommandRequest<GetControllerList, GetControll
     {
         var result  = CreatePayload(1);
 
-        return result.ToJson();
+        return result;
     }
 
     protected override GetControllerListResult ResponseFilter(string json)
