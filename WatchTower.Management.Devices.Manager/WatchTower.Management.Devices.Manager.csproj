@@ -51,8 +51,17 @@
     </ItemGroup>
 
     <ItemGroup>
+    
+        <ProjectReference Include="..\WatchTower.Management.ServiceModel\WatchTower.Management.ServiceModel.csproj" />
+        
         <ProjectReference Include="..\WatchTower.Management.Devices.E2.ServiceInterface\WatchTower.Management.Devices.E2.ServiceInterface.csproj" />
         <ProjectReference Include="..\WatchTower.Management.Devices.E2.ServiceModel\WatchTower.Management.Devices.E2.ServiceModel.csproj" />
+
+        <ProjectReference Include="..\WatchTower.Management.Devices.E3.ServiceInterface\WatchTower.Management.Devices.E3.ServiceInterface.csproj" />
+        <ProjectReference Include="..\WatchTower.Management.Devices.E3.ServiceModel\WatchTower.Management.Devices.E3.ServiceModel.csproj" />
+        
+        <ProjectReference Include="..\WatchTower.Management.ServiceInterface\WatchTower.Management.ServiceInterface.csproj" />
+
     </ItemGroup>
 
     <ItemGroup>

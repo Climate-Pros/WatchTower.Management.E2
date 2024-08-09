@@ -1,12 +1,26 @@
 
+### Get Session
+#@no-log
+POST http://70.93.249.182/cgi-bin/mgw.cgi
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+
+m={"jsonrpc":"2.0","method":"GetSessionID","id":"1"}
+# Response: http://www.jsonblob.com/1271216274515288064
+
+### Get System Information
+#@no-log
+POST http://70.93.249.182/cgi-bin/mgw.cgi
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+
+m={"jsonrpc":"2.0","method":"GetSystemInformation","params":{"sid":"1abbd98d-c3e4-4faa-9145-4708b776b443"},"id":"6"}
+# Response: http://www.jsonblob.com/1271216274515288064
+
 ### Get App Description
 #@no-log
 POST http://70.93.249.182/cgi-bin/mgw.cgi
 Content-Type: application/x-www-form-urlencoded; charset=UTF-8
 
-#m={"jsonrpc":"2.0","method":"GetAppDescription","params":{"iid":"3313576133","sid":"44c6ec9d-5d08-453d-88fb-4b246091e8d5"},"id":"42"}
 m={"jsonrpc":"2.0","method":"GetAppDescription","params":{"iid":"2683899464","sid":"44c6ec9d-5d08-453d-88fb-4b246091e8d5"},"id":"42"}
-
 # Response: http://www.jsonblob.com/1271216274515288064
 
 ### Get Tag File
@@ -29,7 +43,6 @@ POST http://70.93.249.182/cgi-bin/mgw.cgi
 Content-Type: application/x-www-form-urlencoded; charset=UTF-8
 
 m={"jsonrpc":"2.0","method":"GetPointValues","params":{"points":[{"ptr":"1391366313:DewpointOut"},{"ptr":"1391366313:IntervalTime"},{"ptr":"1391366313:Output"},{"ptr":"1391366313:PercentOnTime"},{"ptr":"1391366313:RelHumidity"},{"ptr":"1391366313:UseDewptSnsr"},{"ptr":"3313576133:CurPresSetpt"},{"ptr":"3313576133:PercentUsed"},{"ptr":"3313576133:RackFail"},{"ptr":"3313576133:StageOut1"},{"ptr":"3313576133:StageOut10"},{"ptr":"3313576133:StageOut11"},{"ptr":"3313576133:StageOut12"},{"ptr":"3313576133:StageOut13"},{"ptr":"3313576133:StageOut14"},{"ptr":"3313576133:StageOut15"},{"ptr":"3313576133:StageOut16"},{"ptr":"3313576133:StageOut2"},{"ptr":"3313576133:StageOut3"},{"ptr":"3313576133:StageOut4"},{"ptr":"3313576133:StageOut5"},{"ptr":"3313576133:StageOut6"},{"ptr":"3313576133:StageOut7"},{"ptr":"3313576133:StageOut8"},{"ptr":"3313576133:StageOut9"},{"ptr":"3313576133:StagesActive"},{"ptr":"3313576133:SuctionPres"},{"ptr":"3313576133:TotalStages"},{"ptr":"3313576133:ControlType"},{"ptr":"3313576133:Number-Stages"},{"ptr":"3313576133:DischargePres"},{"ptr":"3313576133:CompProof1"},{"ptr":"3313576133:ProofEnable1"},{"ptr":"3313576133:Number-Stages"},{"ptr":"3313576133:CompProof2"},{"ptr":"3313576133:ProofEnable2"},{"ptr":"3313576133:StageType2"},{"ptr":"3313576133:Number-Stages"},{"ptr":"3313576133:CompProof3"},{"ptr":"3313576133:ProofEnable3"},{"ptr":"3313576133:StageType3"},{"ptr":"3313576133:Number-Stages"},{"ptr":"3313576133:StageOut1~CyclesYesterday"},{"ptr":"3313576133:Number-Stages"},{"ptr":"3313576133:StageOut2~CyclesYesterday"},{"ptr":"3313576133:Number-Stages"},{"ptr":"3313576133:StageOut3~CyclesYesterday"},{"ptr":"3313576133:Number-Stages"},{"ptr":"3313576133:StageStatus1"},{"ptr":"3313576133:Number-Stages"},{"ptr":"3313576133:StageStatus2"},{"ptr":"3313576133:Number-Stages"},{"ptr":"3313576133:StageStatus3"},{"ptr":"3313576133:Number-Stages"},{"ptr":"1215491289:CurPresSetpt"},{"ptr":"1215491289:PercentUsed"},{"ptr":"1215491289:RackFail"},{"ptr":"1215491289:StageOut1"},{"ptr":"1215491289:StageOut10"},{"ptr":"1215491289:StageOut11"},{"ptr":"1215491289:StageOut12"},{"ptr":"1215491289:StageOut13"},{"ptr":"1215491289:StageOut14"},{"ptr":"1215491289:StageOut15"},{"ptr":"1215491289:StageOut16"},{"ptr":"1215491289:StageOut2"},{"ptr":"1215491289:StageOut3"},{"ptr":"1215491289:StageOut4"},{"ptr":"1215491289:StageOut5"},{"ptr":"1215491289:StageOut6"},{"ptr":"1215491289:StageOut7"},{"ptr":"1215491289:StageOut8"},{"ptr":"1215491289:StageOut9"},{"ptr":"1215491289:StagesActive"},{"ptr":"1215491289:SuctionPres"},{"ptr":"1215491289:TotalStages"},{"ptr":"1215491289:ControlType"},{"ptr":"1215491289:Number-Stages"},{"ptr":"1215491289:DischargePres"},{"ptr":"1215491289:CompProof1"},{"ptr":"1215491289:ProofEnable1"},{"ptr":"1215491289:Number-Stages"},{"ptr":"1215491289:CompProof2"},{"ptr":"1215491289:ProofEnable2"},{"ptr":"1215491289:StageType2"},{"ptr":"1215491289:Number-Stages"},{"ptr":"1215491289:StageOut1~CyclesYesterday"},{"ptr":"1215491289:Number-Stages"},{"ptr":"1215491289:StageOut2~CyclesYesterday"},{"ptr":"1215491289:Number-Stages"},{"ptr":"3545542164:ActiveSetpoint"},{"ptr":"3545542164:Input"},{"ptr":"3545542164:Occup"},{"ptr":"3545542164:Output"},{"ptr":"3545542164:StagesOn"},{"ptr":"3545542164:BypassPid"},{"ptr":"3545542164:EngUnits"},{"ptr":"3545542164:NumStages"},{"ptr":"1010636857:AlgStatus"},{"ptr":"1010636857:Ao1"},{"ptr":"1010636857:Ao2"},{"ptr":"1010636857:Ao3"},{"ptr":"1010636857:Ao4"},{"ptr":"1010636857:Do1"},{"ptr":"1010636857:Do2"},{"ptr":"1010636857:Do3"},{"ptr":"1010636857:Do4"},{"ptr":"1010636857:Ao1EngUnit"},{"ptr":"1010636857:Ao2EngUnit"},{"ptr":"1010636857:Ao3EngUnit"},{"ptr":"1010636857:Ao4EngUnit"},{"ptr":"1010636857:NumOfAo"},{"ptr":"1010636857:NumOfDo"},{"ptr":"3591223251:AlgStatus"},{"ptr":"3591223251:Ao1"},{"ptr":"3591223251:Ao2"},{"ptr":"3591223251:Ao3"},{"ptr":"3591223251:Ao4"},{"ptr":"3591223251:Do1"},{"ptr":"3591223251:Do2"},{"ptr":"3591223251:Do3"},{"ptr":"3591223251:Do4"},{"ptr":"3591223251:Ao1EngUnit"},{"ptr":"3591223251:Ao2EngUnit"},{"ptr":"3591223251:Ao3EngUnit"},{"ptr":"3591223251:Ao4EngUnit"},{"ptr":"3591223251:NumOfAo"},{"ptr":"3591223251:NumOfDo"},{"ptr":"2683899464:AlgStatus"},{"ptr":"2683899464:Ao1"},{"ptr":"2683899464:Ao2"},{"ptr":"2683899464:Ao3"},{"ptr":"2683899464:Ao4"},{"ptr":"2683899464:Do1"},{"ptr":"2683899464:Do2"},{"ptr":"2683899464:Do3"},{"ptr":"2683899464:Do4"},{"ptr":"2683899464:Ao1EngUnit"},{"ptr":"2683899464:Ao2EngUnit"},{"ptr":"2683899464:Ao3EngUnit"},{"ptr":"2683899464:Ao4EngUnit"},{"ptr":"2683899464:NumOfAo"},{"ptr":"2683899464:NumOfDo"},{"ptr":"2683899464:Ai1"},{"ptr":"2683899464:Ai1EngUnit"},{"ptr":"2683899464:NumOfAi"},{"ptr":"2683899464:Ai2"},{"ptr":"2683899464:Ai2EngUnit"},{"ptr":"2683899464:NumOfAi"},{"ptr":"2683899464:Ai3"},{"ptr":"2683899464:Ai3EngUnit"},{"ptr":"2683899464:NumOfAi"},{"ptr":"2683899464:Ai4"},{"ptr":"2683899464:Ai4EngUnit"},{"ptr":"2683899464:NumOfAi"},{"ptr":"2683899464:Ai5"},{"ptr":"2683899464:Ai5EngUnit"},{"ptr":"2683899464:NumOfAi"},{"ptr":"1029896549:ActiveSetpoint"},{"ptr":"1029896549:Input"},{"ptr":"1029896549:Occup"},{"ptr":"1029896549:Output"},{"ptr":"1029896549:StagesOn"},{"ptr":"1029896549:BypassPid"},{"ptr":"1029896549:EngUnits"},{"ptr":"1029896549:NumStages"},{"ptr":"2349961563:CalcStpt"},{"ptr":"2349961563:SetPoint"},{"ptr":"2349961563:Status"},{"ptr":"337952849:DischPres"},{"ptr":"337952849:SuctLoadOut"},{"ptr":"337952849:SuctPress"}],"sid":"b2049e12-34c0-46c6-b520-79fc11f37083"},"id":"33"}
-
 # Response: http://www.jsonblob.com/1271216568993177600
 
 ### Get Points Description
@@ -92,7 +105,6 @@ m=%7B%22jsonrpc%22%3A%222.0%22%2C%22method%22%3A%22GetAlarms%22%2C%22params%22%3
 # NOTE: Equivilent to GetCellList
 #@no-log
 POST http://70.93.249.182/cgi-bin/mgw.cgi
-# Response: http://www.jsonblob.com/1271201430059737088
 Content-Type: application/x-www-form-urlencoded; charset=UTF-8
 
 m={"jsonrpc":"2.0","method":"GetSystemInventory","params":{"sid":"44c6ec9d-5d08-453d-88fb-4b246091e8d5"},"id":"12"}

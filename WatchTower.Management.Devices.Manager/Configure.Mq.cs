@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using ServiceStack.Messaging;
-using WatchTower.Management.Devices.E2.ServiceInterface;
+using WatchTower.Management.ServiceModel;
+using WatchTower.Management.ServiceModel.Types;
 using WatchTower.Management.Devices.E2.ServiceInterface.Data;
-using WatchTower.Management.Devices.E2.ServiceModel;
 using WatchTower.Management.Devices.Manager;
 
 [assembly: HostingStartup(typeof(ConfigureMq))]

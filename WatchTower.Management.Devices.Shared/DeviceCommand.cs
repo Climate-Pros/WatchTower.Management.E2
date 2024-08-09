@@ -1,6 +1,7 @@
 using System.Diagnostics;
+using System.Net.Http.Headers;
 using System.Net.Sockets;
-using Microsoft.CodeAnalysis.Options;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using ServiceStack;
 using ServiceStack.Text;
 using WatchTower.Management.Devices.E2.ServiceModel.Interfaces;
@@ -9,8 +10,15 @@ using WatchTower.Management.Devices.Shared.Types;
 
 namespace WatchTower.Management.Devices.Shared;
 
-public class DeviceCommand<TRequest, TResponse, TResult> : IAsyncCommand<TRequest,TResult>, IReturn<TResponse>
-    where TRequest : class,  IReturn<TResponse>, new()
+public class ContentType
+{
+    public static string TextPlain => "text/plain";
+    public static string ApplicationWWWFormUrlEncoded => "application/x-www-form-urlencoded";
+    public static string ApplicationWWWFormUrlEncodedAsUtf8 => "application/x-www-form-urlencoded; charset=UTF-8";
+}
+
+public abstract class DeviceCommand<TRequest, TResponse, TResult> : IAsyncCommand<TRequest,TResult>, IReturn<TResponse>, IHasLocationId
+    where TRequest : DeviceCommand<TRequest, TResponse, TResult>
     where TResponse : class, IHasResult<TResult>
     where TResult : class, IHasResultData, new()
 
@@ -21,58 +29,108 @@ public class DeviceCommand<TRequest, TResponse, TResult> : IAsyncCommand<TReques
 
     public TResult Result { get; set; }
 
-    private string CreatePayload(int id, string method, List<dynamic>? parameters = default)
+    protected internal string _contentType;
+    protected internal string _method;
+    protected internal Uri _endpoint;
+    
+    protected abstract void SetMethod(string value);
+
+
+    protected string GetMethod()
     {
-        var payload = new Payload(id, method, parameters ?? new List<object>()).ToJson();
-        return payload;
+        return _method;
     }
 
-    protected async Task<TResult> ExecuteCommand(Uri endpoint, string method,  object[] parameters, Func<string, TResult> results ) 
+    protected void SetEndpoint( string value )
     {
-        return await ExecuteCommand(endpoint, method, 0, results, parameters);
-    }
-
-    protected async Task<TResult> ExecuteCommand(Uri endpoint, string method, int id, Func<string, TResult> body, params object[] parameters )
-    {
-        try
-        {   
-            var response = await HostContext.Resolve<HttpClient>().SendStringToUrlAsync(
-                url: endpoint.ToString(),
-                method: "POST",
-                requestBody: CreatePayload(id, method, parameters.ToList()),
-                contentType: "text/plain"
-            );
-
-
-            var result = body(response);
-            
-            return result;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex);
-            throw;
-        }
-
+        _endpoint = new Uri(value);
     }
     
-    public virtual Task ExecuteAsync(TRequest request)
+    protected void SetEndpoint( Uri value )
     {
-        return Task.CompletedTask;
+        _endpoint = value;
     }
 
-    protected Uri GetEndpointByLocationId(int locationId)
+    protected Uri GetEndpoint()
     {
-        var globalAppData = (GlobalAppData)HostContext.AppHost.ScriptContext.Args[nameof(GlobalAppData)];
-        var location = globalAppData.AllLocations.FirstOrDefault(_ => _.Id == locationId);
+        return _endpoint;
+    }
+    
+    protected void SetContentType( ContentType value )
+    {
+        _contentType = value.ToString();
+    }
+    
+    protected void SetContentType( string customValue )
+    {
+        _contentType = customValue;
+    }
+
+    protected string GetContentType()
+    {
+        return _contentType;
+    }
+
+    protected abstract string CreatePayload(TRequest request);
+    /*{
+        throw new InvalidOperationException("FATAL: Override the CreatePayload method");        
+    }*/
+
+    protected async Task<TResult> ExecuteCommand(TRequest request, Func<string, TResult> responseFilter)
+    {
+        var response = await HostContext.Resolve<HttpClient>().SendStringToUrlAsync(
+            url: _endpoint.ToString(),
+            method: _method,
+            requestBody: CreatePayload(request),
+            contentType: _contentType
+        );
         
-        if (location is null)
-            throw new InvalidOperationException($"Unable to find a location with an id: {locationId}");
-
-        return new($"{Scheme.HTTP}://{location.IP}:14106/JSON-RPC");
+        var result = responseFilter(response);
+        
+        return result;
     }
-}
 
+    public virtual async Task ExecuteAsync(TRequest request)
+    {
+        /*
+        var response = await ExecuteCommand
+        (
+            request: request,
+            responseFilter: json => json.FromJson<GetControllerListResult>()
+        ); 
+
+        */
+        Result = await ExecuteCommand(request, ResponseFilter);
+    }
+
+    protected abstract TResult ResponseFilter(string json);
+
+    protected Dictionary<int, string> _endpointCache = new(); 
+
+    protected virtual Uri GetEndpointByLocationId(int locationId)
+    {
+        var ip = "";
+
+        if (_endpointCache.TryGetValue(locationId, out var value))
+            ip = value;
+        else
+        {
+            var globalAppData = (GlobalAppData)HostContext.AppHost.ScriptContext.Args[nameof(GlobalAppData)];
+            var location = globalAppData.AllLocations.FirstOrDefault(_ => _.Id == locationId);
+
+            if (location is null)
+                throw new InvalidOperationException($"Unable to find a location with an id: {locationId}");
+
+            _endpointCache.TryAdd(locationId, location.IP);
+            
+            ip = location.IP;
+        }
+        
+        return new Uri($"{Scheme.HTTP}://{ip}");
+    }
+
+    public virtual int LocationId { get; set; }
+}
 
 /// <summary>
 /// Working on this Profile subset

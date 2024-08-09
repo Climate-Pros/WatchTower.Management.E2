@@ -1,0 +1,34 @@
+
+### Get Controller List
+#@no-log
+POST http://166.250.144.234:14106/JSON-RPC
+Content-Type: application/json
+
+{
+  "id": 0,
+  "method": "E2.GetControllerList",
+  "params": [1]
+}
+
+### Get Cell List
+#@no-log
+POST http://166.250.144.234:14106/JSON-RPC
+Content-Type: application/json
+
+{
+  "id": 0,
+  "method": "E2.GetCellList",
+  "params": ["E2 Unit02"]
+}
+
+### Get Cell List
+#@no-log
+POST http://166.250.144.234:14106/JSON-RPC
+Content-Type: application/json
+
+{
+  "id": 0,
+  "method": "E2.GetMultiExpandedStatus",
+  "params": ["E2 Unit02"]
+}
+

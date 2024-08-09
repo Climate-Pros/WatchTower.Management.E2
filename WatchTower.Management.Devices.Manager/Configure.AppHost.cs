@@ -1,7 +1,9 @@
+using Funq;
+using ServiceStack.Configuration;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 using ServiceStack.Text;
-using WatchTower.Management.Devices.E2.ServiceInterface;
+using WatchTower.Management.ServiceModel.Types;
 using WatchTower.Management.Devices.Manager;
 using WatchTower.Management.Devices.Manager.Migrations;
 using WatchTower.Management.Devices.Shared.Types;
@@ -11,7 +13,8 @@ using Config = ServiceStack.Text.Config;
 
 namespace WatchTower.Management.Devices.Manager;
 
-public class AppHost() : AppHostBase("Device Manager"), IHostingStartup
+public class AppHost() : AppHostBase("Device Manager"), 
+IHostingStartup
 {
     public void Configure(IWebHostBuilder builder) => builder
         .ConfigureServices((context, services) =>
@@ -24,7 +27,7 @@ public class AppHost() : AppHostBase("Device Manager"), IHostingStartup
 
     public override void Configure()
     {
-        Register(AppSettings);        
+        Register(AppSettings);
         
         using var db = Resolve<IDbConnectionFactory>().OpenDbConnection("PrimaryConnectionString");
 
@@ -57,6 +60,7 @@ public class AppHost() : AppHostBase("Device Manager"), IHostingStartup
 
         SetConfig(new HostConfig
         {
+            DebugMode = true
         });
         
         var migrator = new Migrator(this.Resolve<IDbConnectionFactory>(), typeof(Migration1000).Assembly);

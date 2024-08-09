@@ -1,11 +1,9 @@
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using ServiceStack;
-using ServiceStack.Html;
 using WatchTower.Management.Devices.E2.ServiceModel;
 using WatchTower.Management.Devices.E2.ServiceModel.Commands.GetCellList;
 using WatchTower.Management.Devices.E2.ServiceModel.Commands.GetMultiExpandedStatus;
-using WatchTower.Management.Devices.Shared;
 using static WatchTower.Management.Devices.E2.ServiceModel.Commands.Types;
 using Result = WatchTower.Management.Devices.E2.ServiceModel.Commands.GetMultiExpandedStatus.Result;
 
@@ -44,9 +42,7 @@ public class GetMultiExpandedStatusCommand : GetMultiExpandedStatus
 
             var response = await ExecuteCommand
             (
-                GetEndpointByLocationId(request.LocationId),
-                "E2.GetMultiExpandedStatus",
-                [batch.ToObjects()],
+                request: request,
                 json => json.FromJson<GetMultiExpandedStatusResult>()
             );
 

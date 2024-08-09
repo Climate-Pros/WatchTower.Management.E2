@@ -7,7 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\WatchTower.Management.Devices.Shared\WatchTower.Management.Devices.Shared.csproj" />
+      <ProjectReference Include="..\WatchTower.Management.ServiceModel\WatchTower.Management.ServiceModel.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
     </ItemGroup>
 
 </Project>

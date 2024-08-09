@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using ServiceStack.Blazor;
+using ServiceStack.Configuration;
 using ServiceStack.Logging;
 using WatchTower.Management.Devices.E2.ServiceInterface;
 using WatchTower.Management.Devices.E2.ServiceInterface.Data;
@@ -18,6 +19,8 @@ using WatchTower.Management.Devices.Manager;
 using WatchTower.Management.Devices.Manager.Components;
 using WatchTower.Management.Devices.Manager.Components.Account;
 using WatchTower.Management.Devices.Manager.Jobs;
+using WatchTower.Management.ServiceInterface;
+using WatchTower.Management.ServiceModel.Types;
 
 LogManager.LogFactory = new ConsoleLogFactory(true);
 
@@ -100,17 +103,39 @@ services.AddHangfire((provider, configuration) =>
         {
             var factory = provider.GetService<IServiceScopeFactory>();
 
-            options.Queues = new[]
-            {
+            options.Queues =
+            [
                 "default",
                 "cache"
-            };
+            ];
             options.Activator = new AspNetCoreJobActivator(factory);
         })
     ;
 
 // Register all services
-services.AddServiceStack(typeof(CommandServices).Assembly);
+services.AddServiceStack([
+    typeof( E2Service ).Assembly, 
+    typeof( E2Service ).Assembly, 
+    typeof( EmailServices ).Assembly
+], o =>
+{
+    o.Services?.AddSingleton(c =>
+    {
+        var config = c.GetService<IAppSettings>()?.GetDictionary("SMTP");
+
+        if (config is null) throw new InvalidOperationException("Unable to find AppSettings during initialization");
+        
+        return new SmtpConfig
+        {
+            FromEmail = config["From"],
+            FromName = config["FromName"],
+            Host = config["Host"],
+            Username = config["UserName"],
+            Password = config["Password"],
+            Port = int.Parse(config["Port"])
+        };
+    });
+});
 
 var app = builder.Build();
 

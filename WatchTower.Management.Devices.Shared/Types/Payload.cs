@@ -3,23 +3,16 @@ using System.Runtime.Serialization;
 namespace WatchTower.Management.Devices.Shared.Types;
 
 [DataContract]
-public class Payload
+public class Payload<TRequest> where TRequest : class
 {
     [DataMember]
     public int Id { get; set; }
 
     [DataMember]
-    public string Method { get; set; }
+    public TRequest Request { get; set; }
 
-    [DataMember]
-    public List<object> Params { get; set; }
-
-    public Payload(int id, string method, List<object>? @params = default)
+    public Payload( TRequest request )
     {
-        @params ??= new List<object>();
-        
-        Id = id;
-        Method = method;
-        Params =  @params;
+        Request = request;
     }
 }
