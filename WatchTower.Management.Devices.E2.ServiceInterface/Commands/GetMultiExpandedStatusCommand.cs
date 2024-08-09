@@ -11,7 +11,7 @@ namespace WatchTower.Management.Devices.E2.ServiceInterface.Commands;
 
 public class GetMultiExpandedStatusCommand : GetMultiExpandedStatus
 {
-    public override async Task ExecuteAsync(GetMultiExpandedStatus request)
+    /*public override async Task ExecuteAsync(GetMultiExpandedStatus request)
     {
         var sw = Stopwatch.StartNew();
         var results = await CommandExecutor.ExecuteWithResultAsync(new GetCellListCommand(), new GetCellList { LocationId = request.LocationId, ControllerName = request.ControllerName });
@@ -78,5 +78,5 @@ public class GetMultiExpandedStatusCommand : GetMultiExpandedStatus
         var cellType = cell is not null ? $"{cell?.CellType}:" : "";
 
         _.Prop = $"{parts[0]}:{cellType}{parts[1]}:{parts[2]}";
-    }
+    }*/
 }

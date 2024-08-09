@@ -20,7 +20,7 @@ Content-Type: application/json
 {
   "id": 0,
   "method": "E2.GetCellList",
-  "params": ["E2 Unit02"]
+  "params": ["E2 Unit01"]
 }
 
 ### Get Multi Expanded Status
@@ -31,6 +31,6 @@ Content-Type: application/json
 {
   "id": 0,
   "method": "E2.GetMultiExpandedStatus",
-  "params": ["E2 Unit02"]
+  "params": ["E2 Unit01"]
 }
 

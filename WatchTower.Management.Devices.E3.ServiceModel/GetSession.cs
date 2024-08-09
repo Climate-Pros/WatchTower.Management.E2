@@ -9,13 +9,8 @@ public class GetSessionID : E3CommandRequest<GetSessionID, GetSessionIDResponse,
     protected override string RequestFilter(GetSessionID request)
     {
         var _payload = request.ToObjectDictionary();
-
-        var locationIdKey = nameof(request.LocationId);
         var parametersKey = nameof(request.Parameters);
         
-        if (_payload.ContainsKey(locationIdKey))
-            _payload.Remove(locationIdKey);
-
         if (_payload.ContainsKey(parametersKey))
         {
             var parameters = (List<object>?)_payload[parametersKey];

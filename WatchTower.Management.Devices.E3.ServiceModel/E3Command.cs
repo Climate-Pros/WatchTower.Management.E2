@@ -62,9 +62,7 @@ public abstract class E3Command<TRequest, TResponse, TResult> : DeviceCommand<TR
                 url: _endpoint.ToString(),
                 method: "POST",
                 requestBody: requestBody,
-                contentType: _contentType,
-                requestFilter: async message => { ; },
-                responseFilter: async message => { ; }
+                contentType: _contentType
             );
             
             Result = ResponseFilter(response);

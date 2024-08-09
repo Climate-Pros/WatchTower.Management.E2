@@ -11,7 +11,7 @@ public class E3Service : DeviceService
 
     public async Task<object> Any(GetSessionID request)
     {
-        var result = await CommandExecutor.ExecuteWithResultAsync(new GetSessionID { LocationId = request.LocationId }, request);
+        var result = await CommandExecutor.ExecuteWithResultAsync(new GetSessionID { }, request);
 
         return new GetSessionIDResponse
         {
@@ -21,7 +21,7 @@ public class E3Service : DeviceService
     
     public async Task<object> Any(GetSystemInventory request)
     {
-        var result = await CommandExecutor.ExecuteWithResultAsync(new GetSystemInventoryCommand { LocationId = request.LocationId }, request);
+        var result = await CommandExecutor.ExecuteWithResultAsync(new GetSystemInventoryCommand { }, request);
 
         return new GetSystemInventoryResponse
         {

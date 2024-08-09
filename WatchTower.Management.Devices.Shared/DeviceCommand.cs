@@ -17,7 +17,7 @@ public class ContentType
     public static string ApplicationWWWFormUrlEncodedAsUtf8 => "application/x-www-form-urlencoded; charset=UTF-8";
 }
 
-public abstract class DeviceCommand<TRequest, TResponse, TResult> : IAsyncCommand<TRequest,TResult>, IReturn<TResponse>, IHasLocationId
+public abstract class DeviceCommand<TRequest, TResponse, TResult> : IAsyncCommand<TRequest,TResult>, IReturn<TResponse>
     where TRequest : class //DeviceCommand<TRequest, TResponse, TResult>
     where TResponse : class, IHasResult<TResult>
     where TResult : class, IHasResultData, new()
@@ -76,19 +76,19 @@ public abstract class DeviceCommand<TRequest, TResponse, TResult> : IAsyncComman
         throw new InvalidOperationException("FATAL: Override the CreatePayload method");        
     }*/
 
-    protected async Task<TResult> ExecuteCommand(TRequest request, Func<string, TResult> responseFilter)
+    /*protected async Task<TResult> ExecuteCommand( string contentType, string endpoint, string method, TRequest request, Func<string, TResult> responseFilter)
     {
         var response = await HostContext.Resolve<HttpClient>().SendStringToUrlAsync(
-            url: _endpoint.ToString(),
+            url: endpoint,
             method: "POST",
             requestBody: RequestFilter(request),
-            contentType: _contentType
+            contentType: contentType
         );
         
         var result = responseFilter(response);
         
         return result;
-    }
+    }*/
 
     public virtual async Task ExecuteAsync(TRequest request)
     {
@@ -100,7 +100,8 @@ public abstract class DeviceCommand<TRequest, TResponse, TResult> : IAsyncComman
         ); 
 
         */
-        Result = await ExecuteCommand(request, ResponseFilter);
+        //Result = await ExecuteCommand(request, ResponseFilter);
+        ;
     }
 
     protected virtual string RequestFilter(TRequest request)
@@ -132,8 +133,7 @@ public abstract class DeviceCommand<TRequest, TResponse, TResult> : IAsyncComman
         
         return new Uri($"{Scheme.HTTP}://{ip}");
     }
-
-    public virtual int? LocationId { get; set; }
+    
 }
 
 /// <summary>

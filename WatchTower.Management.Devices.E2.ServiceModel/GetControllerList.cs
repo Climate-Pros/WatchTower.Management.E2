@@ -26,6 +26,8 @@ public class GetControllerList : E2CommandRequest<GetControllerList, GetControll
     {
         return json.FromJson<GetControllerListResult>();
     }
+
+    public override int? LocationId { get; set; }
 }
 
 public class GetControllerListResponse : E2CommandResponse<GetControllerListResult>

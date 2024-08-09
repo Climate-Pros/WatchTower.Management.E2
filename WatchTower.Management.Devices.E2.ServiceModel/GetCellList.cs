@@ -11,16 +11,18 @@ public class GetCellList : E2CommandRequest<GetCellList, GetCellListResponse, Ge
     {
         var result = CreatePayload
         (
-            [1]
+            [request.ControllerName]
         );
 
-        return result.ToJson();
+        return result;
     }
 
     protected override GetCellListResult ResponseFilter(string json)
     {
         return json.FromJson<GetCellListResult>();
     }
+
+    public override int? LocationId { get; set; }
 
     public string? ControllerName { get; set; }
 }

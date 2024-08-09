@@ -92,7 +92,7 @@ public class E2Service : DeviceService
         {
             request.Points = batch.ToList();
             
-            var values = await CommandExecutor.ExecuteWithResultAsync(new GetMultiExpandedStatusCommand { LocationId = request.LocationId }, request);
+            var values = await CommandExecutor.ExecuteWithResultAsync(new GetMultiExpandedStatus { LocationId = request.LocationId }, request);
             
             batchResults.AddRange(values.Result.Data);
         });

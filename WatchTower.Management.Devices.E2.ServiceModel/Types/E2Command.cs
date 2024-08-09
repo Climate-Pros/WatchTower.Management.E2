@@ -1,11 +1,13 @@
 using System.Runtime.Serialization;
 using ServiceStack;
+using ServiceStack.Html;
 using WatchTower.Management.Devices.E2.ServiceModel.Interfaces;
 using WatchTower.Management.Devices.Shared;
+using WatchTower.Management.Devices.Shared.Interfaces;
 
 namespace WatchTower.Management.Devices.E2.ServiceModel.Types;
 
-public abstract class E2Command<TRequest, TResponse, TResult> : DeviceCommand<TRequest, TResponse, TResult> 
+public abstract class E2Command<TRequest, TResponse, TResult> : DeviceCommand<TRequest, TResponse, TResult>, IHasLocationId
     where TRequest :  E2CommandRequest<TRequest, TResponse, TResult>
     where TResponse : E2CommandResponse<TResult> 
     where TResult : class, IHasResultData, new()
@@ -26,11 +28,13 @@ public abstract class E2Command<TRequest, TResponse, TResult> : DeviceCommand<TR
             SetContentType( ContentType.ApplicationJson );
             SetEndpoint( locationEndpoint );
             SetMethod( $"E2.{typeof(TRequest).Name}");
-            
-            var response = HostContext.Resolve<HttpClient>().SendStringToUrl(
+        
+            var requestBody = RequestFilter(request);
+
+            var response = await HostContext.Resolve<HttpClient>().SendStringToUrlAsync(
                 url: GetEndpoint().AbsoluteUri,
                 method: "POST",
-                requestBody: RequestFilter(request),
+                requestBody: requestBody,
                 contentType: GetContentType()
             );
             
@@ -59,8 +63,9 @@ public abstract class E2Command<TRequest, TResponse, TResult> : DeviceCommand<TR
     .ToJson();
 
     protected abstract override TResult ResponseFilter(string json);
-    
 
+
+    public abstract int? LocationId { get; set; }
 }
 
 
@@ -69,13 +74,16 @@ public abstract class E2CommandRequest<TRequest, TResponse, TResult> : E2Command
     where TResponse : E2CommandResponse<TResult> 
     where TResult : class, IHasResultData, new()
 {
-    [DataMember(Name = "m")] 
+    [DataMember(Name = "id")]
+    [Input(Type = Input.Types.Hidden)]
     public string Id { get; set; } = new Random().Next(1000000000, 2000000000).ToString();
 
     [DataMember(Name = "method")] 
+    [Input(Type = Input.Types.Hidden)]
     public string Method { get; set; } = typeof(TRequest).Name;
     
     [DataMember(Name = "params")] 
+    [Input(Type = Input.Types.Hidden)]
     public List<object>? Parameters { get; set; }
 
     public E2CommandRequest(params object[] parameters)
